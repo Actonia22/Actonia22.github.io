@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="title: CTF入门|简单的XSS漏铜解题date: 2026-08-01 01:33:42tags:心得 CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="title: CTF入门|简单的XSS漏铜解题date: 2026-08-01 01:33:42tags:心得 CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-07-31T17:33:42.718Z">
+<meta property="article:modified_time" content="2026-08-01T09:44:38.392Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CTF入门-简单的XSS漏铜解题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" class="article-date">
+  <time class="dt-published" datetime="2026-07-31T17:33:42.718Z" itemprop="datePublished">2026-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <hr>
+<p>title: CTF入门|简单的XSS漏铜解题<br>date: 2026-08-01 01:33:42<br>tags:心得</p>
+<h1 id="CTF入门-简单的XSS-漏洞解题"><a href="#CTF入门-简单的XSS-漏洞解题" class="headerlink" title="CTF入门 | 简单的XSS 漏洞解题"></a>CTF入门 | 简单的XSS 漏洞解题</h1><blockquote>
+<p>本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。</p>
+</blockquote>
+<h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。</p>
+<p>靶场地址：<a target="_blank" rel="noopener" href="http://62.234.23.150:8080/">http://62.234.23.150:8080/</a></p>
+<p>题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag。</p>
+<h2 id="0x01-页面初步观察"><a href="#0x01-页面初步观察" class="headerlink" title="0x01 页面初步观察"></a>0x01 页面初步观察</h2><p>打开链接进入游戏首页，核心规则：击杀丧尸累计1000分即可获取flag。</p>
+<p>游戏操作按键：</p>
+<ul>
+<li>WASD：人物移动</li>
+<li>鼠标：瞄准目标</li>
+<li>鼠标左键：连发射击</li>
+<li>R：换弹</li>
+<li>ESC：暂停游戏</li>
+</ul>
+<p>浏览器地址栏自带一段<abbr title="载荷是指攻击者或测试者发送给目标系统的一段数据/代码，XSS测试载荷就是专门用来探测网页是否有跨站脚本漏洞的“探针代码”。">XSS测试载荷</abbr>：</p>
+<pre><code class="language-html">?name=&lt;img%20src=x%20onerror=alert(1)&gt;
+
+
+&gt;💡 踩坑提醒： 该载荷是纯粹的题目干扰项！本题不存在任何XSS漏洞，只是题目名称和URL参数刻意误导。
+
+手动刷满1000分耗时极长，由此判断：分数、领奖逻辑全部由前端JS控制，无后端校验，可直接控制台篡改数据通关。
+
+## 0x02 实战解题步骤
+
+### 1. 打开调试工具
+页面按下 `` `F12` `` 打开开发者工具，切换至 `` `Console` `` 控制台。
+
+### 2. 分析核心JS对象
+页面存在全局 `` `game` `` 对象，包含所有核心业务逻辑：
+*   `` `game.score` ``：存取器属性，存储当前游戏分数
+*   `` `game.claimReward()` ``：异步领奖函数，分数达标即可弹出flag
+*   `` `game.start()` ``：游戏启动函数
+
+### 3. 核心代码执行（一键通关）
+直接在控制台修改分数为1000，调用领奖函数：
+
+```javascript
+// 篡改前端分数，绕过游戏击杀校验
+game.score = 1000;
+
+// 调用官方领奖接口，获取Flag
+game.claimReward();
+代码执行后，页面直接弹窗输出flag，题目通关。
+
+0x03 重点：XSS漏洞零基础核心知识
+做完本题最大的收获：分清「前端变量篡改」和「真实XSS漏洞」。
+
+### 1. 什么是XSS漏洞？
+**XSS**（跨站脚本攻击，Cross-Site Scripting）是Web中最经典的高危漏洞之一。
+
+漏洞成因：网站对用户输入的内容**没有做&lt;abbr title=&quot;拒绝或移除非法字段；把可能被解释为代码的特殊字符替换为安全的文本实体；对允许部分 HTML 的输入进行“消毒”，保留安全的标签，规范化危险内容。&quot;&gt;过滤，转义，进化&lt;/abbr&gt;**，导致攻击者可以提交恶意JS代码，代码被页面解析执行，从而实现&lt;abbr title=&quot;攻击者让受害者打开的网页行为被接管（插入或运行攻击脚本），使页面按照攻击者意图展示或执行操作。&quot;&gt;劫持页面&lt;/abbr&gt;、&lt;abbr title=&quot;Cookie 是浏览器为某个网站保存的小片段数据，窃取Cookie是指通过脚本读取浏览器存储的 Cookie（若未设置 HttpOnly），拿到会话凭证后冒充用户登录/访问受保护资源。&quot;&gt;窃取 Cookie&lt;/abbr&gt;、&lt;abbr title=&quot;在真实页面内注入或跳转到伪造界面，欺骗用户输入敏感信息（账号、密码、验证码等）。&quot;&gt;钓鱼&lt;/abbr&gt;、&lt;abbr title=&quot;顾名思义，修改页面内容从而误导用户/伪装重要信息&quot;&gt;篡改页面&lt;/abbr&gt;等攻击行为。
+
+简单来说：**用户写的代码，被网站原样运行了，攻击者利用它让浏览器跑任意脚本。**
+
+### 2. XSS漏洞三大分类
+####（1）反射型XSS（非持久化）
+恶意代码通过&lt;abbr title=&quot;将数据放在网址里传给服务器或页面 常见形式：问号+查询字符串 例子:?name=alice&amp;age=20 表示传递了两个参数 name=alice 和 age=20。&quot;&gt;URL 参数传递&lt;/abbr&gt;，一次性执行、不会存储在服务器，仅当前访问生效。
+
+特点：需要诱导用户点击特制链接，时效性短、无法持久。
+
+常见场景：搜索框回显、URL参数直接渲染页面。
+
+经典测试Payload：`` `&lt;script&gt;alert(1)&lt;/script&gt;` ``
+
+####（2）存储型XSS（持久化）
+用户提交的恶意JS代码，**被服务器存入数据库、文件、留言板等**，所有访问该页面的用户都会触发漏洞。
+
+特点：危害最大、持久性强、无需诱导点击，属于高危漏洞。
+
+常见场景：论坛留言、评论区、个人资料编辑、文章投稿。
+
+####（3）&lt;abbr title=&quot;文档对象模型，浏览器用来表示和操作网页内容的树形结构&quot;&gt;DOM&lt;/abbr&gt;型XSS
+不经过服务器数据交互，**完全由前端JS逻辑导致的漏洞**。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。
+
+特点：纯前端漏洞，流量不会经过服务器，隐蔽性极强。
+
+### 3. 本题为什么不是XSS漏洞？
+*   题目URL中的Payload只是文本参数，**页面并未解析、执行这段JS代码**
+*   全程没有用户输入渲染、没有代码解析执行的过程
+
+通关方式只是单纯的前端 JS 变量篡改，属于典型的前端校验绕过，与 XSS 代码注入完全无关。
+
+**总结：** 本题实则是披着 XSS 外衣的「前端安全基础题」，非常适合用来帮助新手区分“伪漏洞”和“真实漏洞”。
+
+### 4. XSS常见攻击危害
+*   窃取用户 `Cookie`，实现账号劫持、登录他人账号。
+*   篡改页面内容，搭建钓鱼页面、诱导用户输入信息。
+*   配合 CSRF 漏洞，执行越权操作。
+*   植入恶意代码、挖矿脚本、木马等。
+
+### 5. XSS基础防御方案（开发&amp;安全必知）
+*   **输入过滤**：严格过滤特殊字符 `&lt; &gt; &amp; &quot; &#39;` 等，阻止恶意代码注入。
+*   **输出转义**：前端渲染动态数据前，统一进行 HTML 实体转义，防止标签被解析。
+*   **`Cookie HttpOnly`**：禁止 JS 读取 Cookie，防止会话劫持。
+*   **开启 CSP 策略**：限制页面恶意脚本执行。
+
+## 0x04 前端安全延伸知识点
+**JS存取器 get/set**
+
+本题中 `score` 属于 JS 存取器属性，拥有 `get`（读取）和 `set`（赋值）方法。即便前端写死分数限制逻辑，用户依旧可以通过浏览器控制台强制赋值绕过。**请牢记：所有前端校验都是不可信的。**
+
+**安全开发铁律：** 核心业务判断、权限校验、数据统计等逻辑，**绝不可信任前端，必须放在后端实现。**
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidN6iKx_9cZ2K1RktP0bBA7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2026/07/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/08/">August 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">July 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2026/07/30/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
