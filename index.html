@@ -100,9 +100,10 @@
 <li>R：换弹</li>
 <li>ESC：暂停游戏</li>
 </ul>
-<p>浏览器地址栏自带一段<abbr title="载荷是指攻击者或测试者发送给目标系统的一段数据/代码，XSS测试载荷就是专门用来探测网页是否有跨站脚本漏洞的“探针代码”。">XSS测试载荷</abbr>：</p>
-<pre><code class="language-html">?name=&lt;img%20src=x%20onerror=alert(1)&gt;
-
+<p>浏览器地址栏自带一段<abbr title="载荷是指攻击者或测试者发送给目标系统的一段数据/代码，XSS测试载荷就是专门用来探测网页是否有跨站脚本漏洞的“探针代码”。">XSS测试载荷</abbr>：
+</p><pre><code class="language-html">
+  
+  ?name=&lt;img%20src=x%20onerror=alert(1)&gt;
 
 &gt;💡 踩坑提醒： 该载荷是纯粹的题目干扰项！本题不存在任何XSS漏洞，只是题目名称和URL参数刻意误导。
 
