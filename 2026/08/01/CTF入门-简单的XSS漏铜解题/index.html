@@ -6,15 +6,15 @@
   
   <title>CTF入门|简单的XSS漏铜解题 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 靶场地址：http:&#x2F;&#x2F;62.234.23.150:8080&#x2F; 题目">
+  <meta name="description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CTF入门|简单的XSS漏铜解题">
 <meta property="og:url" content="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 靶场地址：http:&#x2F;&#x2F;62.234.23.150:8080&#x2F; 题目">
+<meta property="og:description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-07-31T17:33:42.000Z">
-<meta property="article:modified_time" content="2026-08-02T09:06:15.490Z">
+<meta property="article:modified_time" content="2026-08-02T14:01:29.009Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
@@ -100,7 +100,6 @@
 <p>本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。</p>
 </blockquote>
 <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。</p>
-<p>靶场地址：<a target="_blank" rel="noopener" href="http://62.234.23.150:8080/">http://62.234.23.150:8080/</a></p>
 <p>题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag。</p>
 <h2 id="0x01-页面初步观察"><a href="#0x01-页面初步观察" class="headerlink" title="0x01 页面初步观察"></a>0x01 页面初步观察</h2><p>打开链接进入游戏首页，核心规则：击杀丧尸累计1000分即可获取flag。</p>
 <p>游戏操作按键：</p>
@@ -167,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidu6dpc4byZaEjLs0VLW2ks" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuid7wdSyfpaACqAnFiVqN5M5" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -178,6 +177,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          从零搭建个人博客：新手避坑全流程指南
+        
+      </div>
+    </a>
   
   
     <a href="/2026/07/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -196,13 +204,20 @@
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
+    </div>
+  </div>
+
 
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li></ul>
     </div>
   </div>
 
@@ -212,7 +227,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a>
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 10px;">新手教程</a>
     </div>
   </div>
 
@@ -232,6 +247,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/">从零搭建个人博客：新手避坑全流程指南</a>
+          </li>
         
           <li>
             <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/">CTF入门|简单的XSS漏铜解题</a>
