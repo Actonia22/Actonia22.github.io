@@ -117,180 +117,83 @@
 <h2 id="三、-本地博客搭建（Hexo-初始化）"><a href="#三、-本地博客搭建（Hexo-初始化）" class="headerlink" title="三、 本地博客搭建（Hexo 初始化）"></a>三、 本地博客搭建（Hexo 初始化）</h2><p>1.下载完软件终于可以进行博客搭建了，在电脑上随便新建一个文件夹（如 <code>D:\my-blog</code>）。</p>
 <p>2.<strong>鼠标右键点击该文件夹，选择“用 VS Code 打开”。</strong><br>如果没有这个选项可以在菜单里面打开VS Code，点击文件F，打开my-blog 文件夹。</p>
 <p>3.在 VS Code 的“终端”菜单中新建一个终端（ps：运用之前建议在配置中下载中文语言包，将英文翻译成中文）然后执行以下命令：</p>
-<p>a. &#96;&#96;&#96;powershell</p>
-<p>b. &#96;&#96;&#96;npm install hexo-cli -g(安装Hexo)</p>
+<p>a.powershell</p>
+<p>b. npm install hexo-cli -g(安装Hexo)</p>
 <p>(ps:运行B命令时你可能会遇到以下问题</p>
 <p><strong>[无法加载文件以及UnauthorizedAccess（未授权访问）]</strong><br>解决方法：将终端类型换为命令提示符（CMD），具体操作是在终端区域找到右上角的下拉箭头并且选择CMD。</p>
-<p><strong>)[权限不够]</strong><br>解决方法：找到 VS Code 的图标，鼠标右键点击它，选择 以管理员身份运行；在刚才那个打开的终端，敲入下这行命令并回车：</p>
-<pre><code class="language-npm">然后再重新执行B命令。
-
-**[npm没有成功被识别出来]**
-解决方法：可能是环境变量出错，可以重新配置一下；或者重开一下VS Code，有时候它没有及时刷新会报错。)
-
-c. ```hexo init my-blog(创建一个博客目录)
-
-注：如果这里提示 error，检查加速器是否开启。
-
-d. ```cd my-blog(进入博客目录)
-
-e.```npm install
-
-f.```hexo server
-
-验证：打开浏览器访问 http://localhost:4000。如果你看到默认的 Hexo 初始页面，说明本地博客已经成功运行！（按 Ctrl + C 可停止本地预览服务）。
-
-## 三、配置 GitHub 与线上部署
-
-1.创建Github仓库，新建仓库。
-名字必须严格命名为：你的GitHub用户名.github.io。
-直接点击创建即可，不要勾选任何选项。
-
-2.配置 &lt;abbr title=&quot;安全外壳协议，用于在电脑和GitHub服务器之间建立安全的加密连接通道，免去每次输入密码的麻烦。&quot;&gt;SSH&lt;/abbr&gt; 钥匙：
-
-a. 在 VS Code 终端中输入：
-
-\`\`\`powershell
-ssh-keygen -t ed25519 -C &quot;你的GitHub邮箱@xxx.com&quot;
-\`\`\`
-
-连续按三次回车即可完成默认公私钥对生成。
-
-注：可能连续按三次也无法生成，一直按回车直到生成公私钥对，即出现大段的复杂文字，如果没生成的话你无法在终端上输入字母。
-
-b. 复制公钥：
-
-\`\`\`powershell
-cat ~/.ssh/id_ed25519.pub
-\`\`\`
-
-将终端中打印的公钥全部复制。
-
-注：(💡 如果在 PowerShell 里 cat 报错，你就换成 type ~/.ssh/id_ed25519.pub)
-（公钥这段字符必须是以 ssh-ed25519 开头，最后是你自己的邮箱。）
-
-c. 回到 GitHub 网页，点击头像 -&gt; Settings -&gt; SSH and GPG keys -&gt; New SSH key，将复制的公钥粘贴进去并保存。
-
-注：title随便写个名字，用英文。
-粘贴完之后，检查一下整段字符前面和后面有没有多出来的空格。
-
-d.回到 VS Code 的终端，敲入我们测试的命令：
-
-\`\`\`powershell
-ssh -T git@github.com
-\`\`\`
-
-如果能看到  Hi (你的GitHub用户名)! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
-证明你成功了。
-
-但往往这一步可能会出错，比如可能会出现以下的错误：
-{终端提示 `connect to host github.com port 22: Connection refused`
-
-解决方法：在终端中执行 `code ~/.ssh/config` 打开配置文件（如果没有会自动创建）。将以下配置粘贴进去并保存：
-
-\`\`\`text
-Host github.com
-   HostName ssh.github.com
-   User git
-   Port 443
-\`\`\`
-
-再次测试，即可成功连通。 }
-
-3.修改 Hexo 配置：在 VS Code 里打开 `_config.yml`，滚动到最底部，修改为以下内容（注意冒号后要有空格）：
-
-\`\`\`yaml
-deploy:
- type: git
- repository: git@github.com:你的GitHub用户名/你的GitHub用户名.github.io.git
- branch: main
-\`\`\`
-
-安装部署插件：在终端执行：
-
-\`\`\`bash
-npm install hexo-deployer-git --save
-\`\`\`
-
-发布博客：依次执行以下命令：
-
-\`\`\`powershell
-hexo clean
-hexo g
-hexo d
-\`\`\`
-
-稍后访问 `https://你的GitHub用户名.github.io` 就能看到你的博客上线了。
-
-
-## 五、日常发文章指南
-
-如何发布自己的文章呢？有如下几步：
-
-1. 在 VS Code 终端输入：
-
-\`\`\`bash
-hexo new &quot;我的新文章标题&quot;
-\`\`\`
-
-这会自动在 `source/_posts/` 下生成一个 `.md` 文件。
-
-2. 用标准的 Markdown 语法写好文章，按 `Ctrl + S` 保存。
-
-3. 在终端依次执行：
-
-\`\`\`bash
-hexo clean
-hexo g
-hexo d
-\`\`\`
-
-4.如果这些步骤后没有反应，比如输入完hexo d后，终端卡在 Validating config，依次敲入这两行命令并回车：
-hexo clean
-hexo g
-打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 仓库，点击右上角的 Add file -&gt; 选择 Upload files，把刚才复制的所有文件，直接拖拽到 GitHub 那个虚线框里。
-
-等待几分钟后，访问你的博客主页（建议按 `Ctrl + F5` 强制刷新），新文章就会顺利上线。
-
-（发布文章可能遇到的问题）
-{
-### 💡 报错 1：GitHub 的 Actions 标签页出现红叉
-
-场景：网页上线后乱码，或在 GitHub 仓库的 Actions 里看到报错日志，提示找不到 `theme landscape`。
-
-原因：仓库根目录里残留了 `_config.yml`，GitHub 误以为你要使用 Jekyll 编译网站，但找不到该主题。
-
-解决方法：在 GitHub 网页仓库中，点击 `Add file` -&gt; `Create new file`，将文件命名为 `.nojekyll`（注意最前面有一个英文点），内容保持为空，直接提交。这会告诉 GitHub“不需要你编译，直接使用我本地生成好的网页”。
-
-### 💡 报错 2：网页显示原始 Markdown 代码，没有排版
-
-场景：打开博客主页（`https://xxx.github.io`），看到的却是一堆带有 `##`、反引号和 `&gt;` 符号的纯文本。
-
-原因：把 `source/_posts/` 里的 `.md` 源文件直接推到了 GitHub 仓库。浏览器无法解析原始 Markdown 文件，只会把它当成纯文本显示。
-
-解决方法：
-
-1. 在本地终端执行：
-
-\`\`\`bash
-hexo clean &amp;&amp; hexo g
-\`\`\`
-
-2. 打开本地 `public/` 文件夹，确认其中包含 `index.html`、`css`、`js` 等静态资源。
-
-3. 将 `public/` 的内容上传到 GitHub 仓库根目录，覆盖原来的错误文件。
-
-}
-
-## 写在最后
-
-搭建环境有点复杂，对于我们初学者来说需要学习的内容还有很多，我们在与AI的沟通过程中需要认真辨析他给的解决方法是否正确，多与不同的高级AI进行沟通，然后思考学习内化。
-&#39;@; Set-Content -Path &#39;d:\B my-blog\source\_posts\如何建立一个自己的个人博客&#39; -Value $h -Encoding utf8
-</code></pre>
+<p><strong>)[权限不够]</strong><br>解决方法：找到 VS Code 的图标，鼠标右键点击它，选择 以管理员身份运行；在刚才那个打开的终端，敲入下这行命令并回车：<br>npm cache clean –force<br>然后再重新执行B命令。</p>
+<p><strong>[npm没有成功被识别出来]</strong><br>解决方法：可能是环境变量出错，可以重新配置一下；或者重开一下VS Code，有时候它没有及时刷新会报错。)</p>
+<p>c.hexo init my-blog(创建一个博客目录)</p>
+<p>注：如果这里提示 error，检查加速器是否开启。</p>
+<p>d.cd my-blog(进入博客目录)</p>
+<p>e.npm install</p>
+<p>f.hexo server</p>
+<p>验证：打开浏览器访问 <a href="http://localhost:4000。如果你看到默认的">http://localhost:4000。如果你看到默认的</a> Hexo 初始页面，说明本地博客已经成功运行！（按 Ctrl + C 可停止本地预览服务）。</p>
+<h2 id="三、配置-GitHub-与线上部署"><a href="#三、配置-GitHub-与线上部署" class="headerlink" title="三、配置 GitHub 与线上部署"></a>三、配置 GitHub 与线上部署</h2><p>1.创建Github仓库，新建仓库。<br>名字必须严格命名为：你的GitHub用户名.github.io。<br>直接点击创建即可，不要勾选任何选项。</p>
+<p>2.配置 <abbr title="安全外壳协议，用于在电脑和GitHub服务器之间建立安全的加密连接通道，免去每次输入密码的麻烦。">SSH</abbr> 钥匙：</p>
+<p>a. 在 VS Code 终端中输入：</p>
+<p>```powershell<br>ssh-keygen -t ed25519 -C “你的GitHub邮箱@xxx.com”<br>```</p>
+<p>连续按三次回车即可完成默认公私钥对生成。</p>
+<p>注：可能连续按三次也无法生成，一直按回车直到生成公私钥对，即出现大段的复杂文字，如果没生成的话你无法在终端上输入字母。</p>
+<p>b. 复制公钥：</p>
+<p>```powershell<br>cat ~&#x2F;.ssh&#x2F;id_ed25519.pub<br>```</p>
+<p>将终端中打印的公钥全部复制。</p>
+<p>注：(💡 如果在 PowerShell 里 cat 报错，你就换成 type ~&#x2F;.ssh&#x2F;id_ed25519.pub)<br>（公钥这段字符必须是以 ssh-ed25519 开头，最后是你自己的邮箱。）</p>
+<p>c. 回到 GitHub 网页，点击头像 -&gt; Settings -&gt; SSH and GPG keys -&gt; New SSH key，将复制的公钥粘贴进去并保存。</p>
+<p>注：title随便写个名字，用英文。<br>粘贴完之后，检查一下整段字符前面和后面有没有多出来的空格。</p>
+<p>d.回到 VS Code 的终端，敲入我们测试的命令：</p>
+<p>```powershell<br>ssh -T <a href="mailto:&#x67;&#x69;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;">git@github.com</a><br>```</p>
+<p>如果能看到  Hi (你的GitHub用户名)! You’ve successfully authenticated, but GitHub does not provide shell access.<br>证明你成功了。</p>
+<p>但往往这一步可能会出错，比如可能会出现以下的错误：<br>{终端提示 <code>connect to host github.com port 22: Connection refused</code></p>
+<p>解决方法：在终端中执行 <code>code ~/.ssh/config</code> 打开配置文件（如果没有会自动创建）。将以下配置粘贴进去并保存：</p>
+<p>```text<br>Host github.com<br>    HostName ssh.github.com<br>    User git<br>    Port 443<br>```</p>
+<p>再次测试，即可成功连通。 }</p>
+<p>3.修改 Hexo 配置：在 VS Code 里打开 <code>_config.yml</code>，滚动到最底部，修改为以下内容（注意冒号后要有空格）：</p>
+<p>```yaml<br>deploy:<br>  type: git<br>  repository: <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;">git@github.com</a>:你的GitHub用户名&#x2F;你的GitHub用户名.github.io.git<br>  branch: main<br>```</p>
+<p>安装部署插件：在终端执行：</p>
+<p>```bash<br>npm install hexo-deployer-git –save<br>```</p>
+<p>发布博客：依次执行以下命令：</p>
+<p>```powershell<br>hexo clean<br>hexo g<br>hexo d<br>```</p>
+<p>稍后访问 <code>https://你的GitHub用户名.github.io</code> 就能看到你的博客上线了。</p>
+<h2 id="五、日常发文章指南"><a href="#五、日常发文章指南" class="headerlink" title="五、日常发文章指南"></a>五、日常发文章指南</h2><p>如何发布自己的文章呢？有如下几步：</p>
+<ol>
+<li>在 VS Code 终端输入：</li>
+</ol>
+<p>```bash<br>hexo new “我的新文章标题”<br>```</p>
+<p>这会自动在 <code>source/_posts/</code> 下生成一个 <code>.md</code> 文件。</p>
+<ol start="2">
+<li><p>用标准的 Markdown 语法写好文章，按 <code>Ctrl + S</code> 保存。</p>
+</li>
+<li><p>在终端依次执行：</p>
+</li>
+</ol>
+<p>```bash<br>hexo clean<br>hexo g<br>hexo d<br>```</p>
+<p>4.如果这些步骤后没有反应，比如输入完hexo d后，终端卡在 Validating config，依次敲入这两行命令并回车：<br>hexo clean<br>hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 仓库，点击右上角的 Add file -&gt; 选择 Upload files，把刚才复制的所有文件，直接拖拽到 GitHub 那个虚线框里。</p>
+<p>等待几分钟后，访问你的博客主页（建议按 <code>Ctrl + F5</code> 强制刷新），新文章就会顺利上线。</p>
+<p>（发布文章可能遇到的问题）<br>{</p>
+<h3 id="💡-报错-1：GitHub-的-Actions-标签页出现红叉"><a href="#💡-报错-1：GitHub-的-Actions-标签页出现红叉" class="headerlink" title="💡 报错 1：GitHub 的 Actions 标签页出现红叉"></a>💡 报错 1：GitHub 的 Actions 标签页出现红叉</h3><p>场景：网页上线后乱码，或在 GitHub 仓库的 Actions 里看到报错日志，提示找不到 <code>theme landscape</code>。</p>
+<p>原因：仓库根目录里残留了 <code>_config.yml</code>，GitHub 误以为你要使用 Jekyll 编译网站，但找不到该主题。</p>
+<p>解决方法：在 GitHub 网页仓库中，点击 <code>Add file</code> -&gt; <code>Create new file</code>，将文件命名为 <code>.nojekyll</code>（注意最前面有一个英文点），内容保持为空，直接提交。这会告诉 GitHub“不需要你编译，直接使用我本地生成好的网页”。</p>
+<h3 id="💡-报错-2：网页显示原始-Markdown-代码，没有排版"><a href="#💡-报错-2：网页显示原始-Markdown-代码，没有排版" class="headerlink" title="💡 报错 2：网页显示原始 Markdown 代码，没有排版"></a>💡 报错 2：网页显示原始 Markdown 代码，没有排版</h3><p>场景：打开博客主页（<code>https://xxx.github.io</code>），看到的却是一堆带有 <code>##</code>、反引号和 <code>&gt;</code> 符号的纯文本。</p>
+<p>原因：把 <code>source/_posts/</code> 里的 <code>.md</code> 源文件直接推到了 GitHub 仓库。浏览器无法解析原始 Markdown 文件，只会把它当成纯文本显示。</p>
+<p>解决方法：</p>
+<ol>
+<li>在本地终端执行：</li>
+</ol>
+<p>```bash<br>hexo clean &amp;&amp; hexo g<br>```</p>
+<ol start="2">
+<li><p>打开本地 <code>public/</code> 文件夹，确认其中包含 <code>index.html</code>、<code>css</code>、<code>js</code> 等静态资源。</p>
+</li>
+<li><p>将 <code>public/</code> 的内容上传到 GitHub 仓库根目录，覆盖原来的错误文件。</p>
+</li>
+</ol>
+<p>}</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>搭建环境有点复杂，对于我们初学者来说需要学习的内容还有很多，我们在与AI的沟通过程中需要认真辨析他给的解决方法是否正确，多与不同的高级AI进行沟通，然后思考学习内化。<br>‘@; Set-Content -Path ‘d:\B my-blog\source_posts\如何建立一个自己的个人博客’ -Value $h -Encoding utf8</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidh-cTQUaW43_E4IFSC6h5N" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidnTe33Wj0qJYeXRpp6iyHr" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -396,7 +299,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidH8MEiiD2_mP2pPgXbXPlc" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidbVFuJAcdzoWWJWdTdhvjr" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -449,7 +352,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidkHmGTk3q9v4ZrWrPsh-V8" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidbB_3-059b3hbcATgIyfrX" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
