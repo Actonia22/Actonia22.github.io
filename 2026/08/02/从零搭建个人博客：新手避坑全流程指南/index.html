@@ -13,16 +13,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="本篇指南结合了真实的踩坑经历整理而成。从环境配置到上网部署，专门整理了新手最容易遇到的问题及解决方法，希望能帮你节省大量时间。  一、 准备工作1.先注册一个GitHub.com 账号，可以弄一个学生福利认证，但比较难弄，可以多试几次，B站教程如下https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Q1XdBCEUM?t&#x3D;318.6 2.下载Watt Toolkit，这是很常见的">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/image.png">
-<meta property="og:image" content="http://example.com/image-1.png">
 <meta property="article:published_time" content="2026-08-02T10:00:00.000Z">
-<meta property="article:modified_time" content="2026-08-02T15:50:22.338Z">
+<meta property="article:modified_time" content="2026-08-02T15:59:31.991Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Hexo">
 <meta property="article:tag" content="博客搭建">
 <meta property="article:tag" content="新手教程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -123,15 +120,16 @@
 </ol>
 <p>注：vscode的安装同理，可以在B站上找教程下载或者直接在微软商店上下载（ps：但微软商店默认下在C盘）</p>
 <h2 id="三、-本地博客搭建（Hexo-初始化）"><a href="#三、-本地博客搭建（Hexo-初始化）" class="headerlink" title="三、 本地博客搭建（Hexo 初始化）"></a>三、 本地博客搭建（Hexo 初始化）</h2><p>1.下载完软件终于可以进行博客搭建了，在电脑上随便新建一个文件夹（如 <code>D:\my-blog</code>）。</p>
-<p>2.<strong>鼠标右键点击该文件夹，选择“用 VS Code 打开”</strong>。<br>如果没有这个选项可以在菜单里面打开VS Code，点击文件F，打开my-blog 文件夹。</p>
+<p>2.<strong>鼠标右键点击该文件夹，选择“用 VS Code 打开”。</strong><br>如果没有这个选项可以在菜单里面打开VS Code，点击文件F，打开my-blog 文件夹。</p>
 <p>3.在 VS Code 的“终端”菜单中新建一个终端（ps：运用之前建议在配置中下载中文语言包，将英文翻译成中文）然后执行以下命令：</p>
 <p>a. &#96;&#96;&#96;powershell</p>
 <p>b. &#96;&#96;&#96;npm install hexo-cli -g(安装Hexo)</p>
-<p>(ps:运行B命令时你可能会遇到以下问题<br><img src="/image.png" alt="alt text">[无法加载文件以及UnauthorizedAccess（未授权访问）]<br>解决方法：将终端类型换为命令提示符（CMD），具体操作是在终端区域找到右上角的下拉箭头并且选择CMD。</p>
-<p><img src="/image-1.png" alt="alt text">[权限不够]<br>解决方法：找到 VS Code 的图标，鼠标右键点击它，选择 以管理员身份运行；在刚才那个打开的终端，敲入下这行命令并回车：</p>
+<p>(ps:运行B命令时你可能会遇到以下问题</p>
+<p><strong>[无法加载文件以及UnauthorizedAccess（未授权访问）]</strong><br>解决方法：将终端类型换为命令提示符（CMD），具体操作是在终端区域找到右上角的下拉箭头并且选择CMD。</p>
+<p><strong>)[权限不够]</strong><br>解决方法：找到 VS Code 的图标，鼠标右键点击它，选择 以管理员身份运行；在刚才那个打开的终端，敲入下这行命令并回车：</p>
 <pre><code class="language-npm">然后再重新执行B命令。
 
-[npm没有成功被识别出来]
+**[npm没有成功被识别出来]**
 解决方法：可能是环境变量出错，可以重新配置一下；或者重开一下VS Code，有时候它没有及时刷新会报错。)
 
 c. ```hexo init my-blog(创建一个博客目录)
@@ -297,7 +295,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuid9X8Bls8HW4E3aGBCR2jSH" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidh-cTQUaW43_E4IFSC6h5N" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
