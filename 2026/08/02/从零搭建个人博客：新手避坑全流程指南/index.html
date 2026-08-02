@@ -147,14 +147,14 @@
 <p>c. 回到 GitHub 网页，点击头像 -&gt; Settings -&gt; SSH and GPG keys -&gt; New SSH key，将复制的公钥粘贴进去并保存。</p>
 <p>注：title随便写个名字，用英文。<br>粘贴完之后，检查一下整段字符前面和后面有没有多出来的空格。</p>
 <p>d.回到 VS Code 的终端，敲入我们测试的命令：</p>
-<p>```powershell<br>ssh -T <a href="mailto:&#x67;&#x69;&#116;&#x40;&#x67;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#x6f;&#x6d;">git@github.com</a><br>```</p>
+<p>```powershell<br>ssh -T <a href="mailto:&#103;&#x69;&#116;&#64;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#46;&#99;&#111;&#109;">git@github.com</a><br>```</p>
 <p>如果能看到  Hi (你的GitHub用户名)! You’ve successfully authenticated, but GitHub does not provide shell access.<br>证明你成功了。</p>
 <p>但往往这一步可能会出错，比如可能会出现以下的错误：<br>{终端提示 <code>connect to host github.com port 22: Connection refused</code></p>
 <p>解决方法：在终端中执行 <code>code ~/.ssh/config</code> 打开配置文件（如果没有会自动创建）。将以下配置粘贴进去并保存：</p>
 <p>```text<br>Host github.com<br>    HostName ssh.github.com<br>    User git<br>    Port 443<br>```</p>
 <p>再次测试，即可成功连通。 }</p>
 <p>3.修改 Hexo 配置：在 VS Code 里打开 <code>_config.yml</code>，滚动到最底部，修改为以下内容（注意冒号后要有空格）：</p>
-<p>```yaml<br>deploy:<br>  type: git<br>  repository: <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#x62;&#46;&#99;&#111;&#109;">git@github.com</a>:你的GitHub用户名&#x2F;你的GitHub用户名.github.io.git<br>  branch: main<br>```</p>
+<p>```yaml<br>deploy:<br>  type: git<br>  repository: <a href="mailto:&#103;&#105;&#x74;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#46;&#x63;&#x6f;&#x6d;">git@github.com</a>:你的GitHub用户名&#x2F;你的GitHub用户名.github.io.git<br>  branch: main<br>```</p>
 <p>安装部署插件：在终端执行：</p>
 <p>```bash<br>npm install hexo-deployer-git –save<br>```</p>
 <p>发布博客：依次执行以下命令：</p>
@@ -198,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidnTe33Wj0qJYeXRpp6iyHr" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuiddlxRmFTOT_3gmQP-WMGFI" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
