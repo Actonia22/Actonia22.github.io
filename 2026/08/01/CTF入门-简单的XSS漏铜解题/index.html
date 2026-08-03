@@ -128,18 +128,22 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 篡改前端分数，绕过游戏击杀校验</span></span><br><span class="line">game.<span class="property">score</span> = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用官方领奖接口，获取Flag</span></span><br><span class="line">game.<span class="title function_">claimReward</span>();</span><br></pre></td></tr></table></figure>
 
 <p>代码执行后，页面直接弹窗输出flag，题目通关。</p>
-<p>0x03 重点：XSS漏洞零基础核心知识<br>做完本题最大的收获：分清「前端变量篡改」和「真实XSS漏洞」。</p>
+<p>0x03 重点：XSS漏洞零基础核心知识
+做完本题最大的收获：分清「前端变量篡改」和「真实XSS漏洞」。</p>
 <h3 id="1-什么是XSS漏洞？"><a href="#1-什么是XSS漏洞？" class="headerlink" title="1. 什么是XSS漏洞？"></a>1. 什么是XSS漏洞？</h3><p><strong>XSS</strong>（跨站脚本攻击，Cross-Site Scripting）是Web中最经典的高危漏洞之一。</p>
 <p>漏洞成因：网站对用户输入的内容<strong>没有做<abbr title="拒绝或移除非法字段；把可能被解释为代码的特殊字符替换为安全的文本实体；对允许部分 HTML 的输入进行“消毒”，保留安全的标签，规范化危险内容。">过滤，转义，进化</abbr></strong>，导致攻击者可以提交恶意JS代码，代码被页面解析执行，从而实现<abbr title="攻击者让受害者打开的网页行为被接管（插入或运行攻击脚本），使页面按照攻击者意图展示或执行操作。">劫持页面</abbr>、<abbr title="Cookie 是浏览器为某个网站保存的小片段数据，窃取Cookie是指通过脚本读取浏览器存储的 Cookie（若未设置 HttpOnly），拿到会话凭证后冒充用户登录/访问受保护资源。">窃取 Cookie</abbr>、<abbr title="在真实页面内注入或跳转到伪造界面，欺骗用户输入敏感信息（账号、密码、验证码等）。">钓鱼</abbr>、<abbr title="顾名思义，修改页面内容从而误导用户/伪装重要信息">篡改页面</abbr>等攻击行为。</p>
 <p>简单来说：<strong>用户写的代码，被网站原样运行了，攻击者利用它让浏览器跑任意脚本。</strong></p>
-<h3 id="2-XSS漏洞三大分类"><a href="#2-XSS漏洞三大分类" class="headerlink" title="2. XSS漏洞三大分类"></a>2. XSS漏洞三大分类</h3><p>####（1）反射型XSS（非持久化）<br>恶意代码通过<abbr title="将数据放在网址里传给服务器或页面 常见形式：问号+查询字符串 例子:?name=alice&age=20 表示传递了两个参数 name=alice 和 age=20。">URL 参数传递</abbr>，一次性执行、不会存储在服务器，仅当前访问生效。</p>
+<h3 id="2-XSS漏洞三大分类"><a href="#2-XSS漏洞三大分类" class="headerlink" title="2. XSS漏洞三大分类"></a>2. XSS漏洞三大分类</h3><p>####（1）反射型XSS（非持久化）
+恶意代码通过<abbr title="将数据放在网址里传给服务器或页面 常见形式：问号+查询字符串 例子:?name=alice&age=20 表示传递了两个参数 name=alice 和 age=20。">URL 参数传递</abbr>，一次性执行、不会存储在服务器，仅当前访问生效。</p>
 <p>特点：需要诱导用户点击特制链接，时效性短、无法持久。</p>
 <p>常见场景：搜索框回显、URL参数直接渲染页面。</p>
 <p>经典测试Payload：<code>`&lt;script&gt;alert(1)&lt;/script&gt;`</code></p>
-<p>####（2）存储型XSS（持久化）<br>用户提交的恶意JS代码，<strong>被服务器存入数据库、文件、留言板等</strong>，所有访问该页面的用户都会触发漏洞。</p>
+<p>####（2）存储型XSS（持久化）
+用户提交的恶意JS代码，<strong>被服务器存入数据库、文件、留言板等</strong>，所有访问该页面的用户都会触发漏洞。</p>
 <p>特点：危害最大、持久性强、无需诱导点击，属于高危漏洞。</p>
 <p>常见场景：论坛留言、评论区、个人资料编辑、文章投稿。</p>
-<p>####（3）<abbr title="文档对象模型，浏览器用来表示和操作网页内容的树形结构">DOM</abbr>型XSS<br>不经过服务器数据交互，<strong>完全由前端JS逻辑导致的漏洞</strong>。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。</p>
+<p>####（3）<abbr title="文档对象模型，浏览器用来表示和操作网页内容的树形结构">DOM</abbr>型XSS
+不经过服务器数据交互，<strong>完全由前端JS逻辑导致的漏洞</strong>。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。</p>
 <p>特点：纯前端漏洞，流量不会经过服务器，隐蔽性极强。</p>
 <h3 id="3-本题为什么不是XSS漏洞？"><a href="#3-本题为什么不是XSS漏洞？" class="headerlink" title="3. 本题为什么不是XSS漏洞？"></a>3. 本题为什么不是XSS漏洞？</h3><ul>
 <li>题目URL中的Payload只是文本参数，<strong>页面并未解析、执行这段JS代码</strong></li>
@@ -166,7 +170,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuid910s8OPK3T1XI2e6gXuyw" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidksERxRlrNQMyfPqpAWye9" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
