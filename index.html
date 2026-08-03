@@ -108,7 +108,7 @@
 注：安装Node.js需要一些复杂的环境配置，建议去B站上找一些安装教程，在此我贴一下个人推荐的教程<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1sbjgzwEBX?t=562.2">https://www.bilibili.com/video/BV1sbjgzwEBX?t=562.2</a>
 （ps：这个教程可能稍微年代老一点，如果安装新版的有些东西可能对不上，有些问题评论区会有解答的）</li>
 </ol>
-<p>一些问题的解决方法：出现&quot;error&quot;的可以以管理员身份运行命令提示符
+<p>一些问题的解决方法：出现&quot;error&quot;的可以<strong>以管理员身份运行命令提示符</strong>
 &quot;不是内部或外部命令，也不是可运行的程序或批处理文件&quot;:<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1zk4y1x74C?t=51.6">https://www.bilibili.com/video/BV1zk4y1x74C?t=51.6</a></p>
 <ol>
 <li><p><strong>安装 <abbr title="开源的版本控制系统，用于记录代码的变更历史，方便与GitHub进行交互。">Git</abbr></strong>：用来把本地代码推送到网上。
@@ -121,9 +121,9 @@
 <h2 id="三、-本地博客搭建（Hexo-初始化）"><a href="#三、-本地博客搭建（Hexo-初始化）" class="headerlink" title="三、 本地博客搭建（Hexo 初始化）"></a>三、 本地博客搭建（Hexo 初始化）</h2><p>1.下载完软件终于可以进行博客搭建了，在电脑上随便新建一个文件夹（如 <code>D:\my-blog</code>）。</p>
 <p>2.<strong>鼠标右键点击该文件夹，选择“用 VS Code 打开”。</strong>
 如果没有这个选项可以在菜单里面打开VS Code，点击文件F，打开my-blog 文件夹。</p>
-<p>3.在 VS Code 的“终端”菜单中新建一个终端（ps：运用之前建议在配置中下载中文语言包，将英文翻译成中文）然后执行以下命令：</p>
-<p>a.powershell</p>
-<p>b. npm install hexo-cli -g(安装Hexo)</p>
+<p>3.在 VS Code 的“终端”菜单中<strong>新建一个终端</strong>（ps：运用之前建议在配置中下载中文语言包，将英文翻译成中文）然后执行以下命令：</p>
+<p>a.<strong>powershell</strong></p>
+<p>b. <strong>npm install hexo-cli -g</strong>(安装Hexo)</p>
 <p>(ps:运行B命令时你可能会遇到以下问题</p>
 <p><strong>[无法加载文件以及UnauthorizedAccess（未授权访问）]</strong>
 解决方法：将终端类型换为命令提示符（CMD），具体操作是在终端区域找到右上角的下拉箭头并且选择CMD。</p>
@@ -133,26 +133,24 @@ npm cache clean --force
 然后再重新执行B命令。</p>
 <p><strong>[npm没有成功被识别出来]</strong>
 解决方法：可能是环境变量出错，可以重新配置一下；或者重开一下VS Code，有时候它没有及时刷新会报错。)</p>
-<p>c.hexo init my-blog(创建一个博客目录)</p>
+<p>c.<strong>hexo init my-blog</strong>(创建一个博客目录)</p>
 <p>注：如果这里提示 error，检查加速器是否开启。</p>
-<p>d.cd my-blog(进入博客目录)</p>
-<p>e.npm install</p>
-<p>f.hexo server</p>
-<p>验证：打开浏览器访问 <a href="http://localhost:4000。如果你看到默认的">http://localhost:4000。如果你看到默认的</a> Hexo 初始页面，说明本地博客已经成功运行！（按 Ctrl + C 可停止本地预览服务）。</p>
+<p>d.<strong>cd my-blog</strong>(进入博客目录)</p>
+<p>e.<strong>npm install</strong></p>
+<p>f.<strong>hexo server</strong></p>
+<p><strong>验证</strong>：打开浏览器访问 <a href="http://localhost:4000。如果你看到默认的">http://localhost:4000。如果你看到默认的</a> Hexo 初始页面，说明本地博客已经成功运行！（按 Ctrl + C 可停止本地预览服务）。</p>
 <h2 id="三、配置-GitHub-与线上部署"><a href="#三、配置-GitHub-与线上部署" class="headerlink" title="三、配置 GitHub 与线上部署"></a>三、配置 GitHub 与线上部署</h2><p>1.创建Github仓库，新建仓库。
 名字必须严格命名为：你的GitHub用户名.github.io。
 直接点击创建即可，不要勾选任何选项。</p>
 <p>2.配置 <abbr title="安全外壳协议，用于在电脑和GitHub服务器之间建立安全的加密连接通道，免去每次输入密码的麻烦。">SSH</abbr> 钥匙：</p>
 <p>a. 在 VS Code 终端中输入：</p>
-<p>```powershell
-ssh-keygen -t ed25519 -C &quot;你的GitHub邮箱@xxx.com&quot;
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t ed25519 -C &quot;你的GitHub邮箱@xxx.com&quot;</span><br></pre></td></tr></table></figure>
+
 <p>连续按三次回车即可完成默认公私钥对生成。</p>
 <p>注：可能连续按三次也无法生成，一直按回车直到生成公私钥对，即出现大段的复杂文字，如果没生成的话你无法在终端上输入字母。</p>
 <p>b. 复制公钥：</p>
-<p>```powershell
-cat ~&#x2F;.ssh&#x2F;id_ed25519.pub
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ~/.ssh/id_ed25519.pub</span><br></pre></td></tr></table></figure>
+
 <p>将终端中打印的公钥全部复制。</p>
 <p>注：(💡 如果在 PowerShell 里 cat 报错，你就换成 type ~&#x2F;.ssh&#x2F;id_ed25519.pub)
 （公钥这段字符必须是以 ssh-ed25519 开头，最后是你自己的邮箱。）</p>
@@ -160,46 +158,32 @@ cat ~&#x2F;.ssh&#x2F;id_ed25519.pub
 <p>注：title随便写个名字，用英文。
 粘贴完之后，检查一下整段字符前面和后面有没有多出来的空格。</p>
 <p>d.回到 VS Code 的终端，敲入我们测试的命令：</p>
-<p>```powershell
-ssh -T <a href="mailto:&#103;&#x69;&#x74;&#64;&#103;&#105;&#116;&#x68;&#117;&#98;&#46;&#x63;&#111;&#109;">git@github.com</a>
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T &lt;git@github.com&gt;</span><br></pre></td></tr></table></figure>
+
 <p>如果能看到  Hi (你的GitHub用户名)! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
 证明你成功了。</p>
 <p>但往往这一步可能会出错，比如可能会出现以下的错误：
 {终端提示 <code>connect to host github.com port 22: Connection refused</code></p>
 <p>解决方法：在终端中执行 <code>code ~/.ssh/config</code> 打开配置文件（如果没有会自动创建）。将以下配置粘贴进去并保存：</p>
-<p>```text
-Host github.com
-    HostName ssh.github.com
-    User git
-    Port 443
-```</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">    HostName ssh.github.com</span><br><span class="line">    User git</span><br><span class="line">    Port 443</span><br></pre></td></tr></table></figure>
+
 <p>再次测试，即可成功连通。 }</p>
 <p>3.修改 Hexo 配置：在 VS Code 里打开 <code>_config.yml</code>，滚动到最底部，修改为以下内容（注意冒号后要有空格）：</p>
-<p>```yaml
-deploy:
-  type: git
-  repository: <a href="mailto:&#103;&#105;&#116;&#64;&#103;&#x69;&#116;&#x68;&#x75;&#x62;&#46;&#x63;&#111;&#x6d;">git@github.com</a>:你的GitHub用户名&#x2F;你的GitHub用户名.github.io.git
-  branch: main
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: &lt;git@github.com&gt;:你的GitHub用户名/你的GitHub用户名.github.io.git</span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
+
 <p>安装部署插件：在终端执行：</p>
-<p>```bash
-npm install hexo-deployer-git --save
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
 <p>发布博客：依次执行以下命令：</p>
-<p>```powershell
-hexo clean
-hexo g
-hexo d
-```</p>
-<p>稍后访问 <code>https://你的GitHub用户名.github.io</code> 就能看到你的博客上线了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>稍后访问 (<a target="_blank" rel="noopener" href="https://你的github用户名.github.io/">https://你的GitHub用户名.github.io</a>) 就能看到你的博客上线了。</p>
 <h2 id="五、日常发文章指南"><a href="#五、日常发文章指南" class="headerlink" title="五、日常发文章指南"></a>五、日常发文章指南</h2><p>如何发布自己的文章呢？有如下几步：</p>
 <ol>
 <li>在 VS Code 终端输入：</li>
 </ol>
-<p>```bash
-hexo new &quot;我的新文章标题&quot;
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;我的新文章标题&quot;</span><br></pre></td></tr></table></figure>
+
 <p>这会自动在 <code>source/_posts/</code> 下生成一个 <code>.md</code> 文件。</p>
 <ol>
 <li><p>用标准的 Markdown 语法写好文章，按 <code>Ctrl + S</code> 保存。</p>
@@ -207,11 +191,8 @@ hexo new &quot;我的新文章标题&quot;
 <li><p>在终端依次执行：</p>
 </li>
 </ol>
-<p>```bash
-hexo clean
-hexo g
-hexo d
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
 <p>4.如果这些步骤后没有反应，比如输入完hexo d后，终端卡在 Validating config，依次敲入这两行命令并回车：
 hexo clean
 hexo g
@@ -228,9 +209,8 @@ hexo g
 <ol>
 <li>在本地终端执行：</li>
 </ol>
-<p>```bash
-hexo clean &amp;&amp; hexo g
-```</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g</span><br></pre></td></tr></table></figure>
+
 <ol>
 <li><p>打开本地 <code>public/</code> 文件夹，确认其中包含 <code>index.html</code>、<code>css</code>、<code>js</code> 等静态资源。</p>
 </li>
@@ -244,7 +224,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidY7ajayW9CIAADLacXPPKU" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuid-AhpBbo7R7x62nsOBiW99" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -354,7 +334,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidksERxRlrNQMyfPqpAWye9" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuid9KRqFOuGie2w8AGRMhrw0" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -407,7 +387,7 @@ hexo clean &amp;&amp; hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidXXyWQ_XyjvixlZ72nDxST" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuid-edD_vzEaLwE6SEFBSlEQ" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
