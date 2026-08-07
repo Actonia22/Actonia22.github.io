@@ -6,15 +6,15 @@
   
   <title>学习日记1 网络安全基础 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="本篇    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期     1           2              3              4 时">
+  <meta name="description" content="本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="学习日记1 网络安全基础">
 <meta property="og:url" content="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="本篇    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期     1           2              3              4 时">
+<meta property="og:description" content="本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &amp;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-08-03T06:41:00.000Z">
-<meta property="article:modified_time" content="2026-08-05T07:22:50.530Z">
+<meta property="article:modified_time" content="2026-08-07T16:34:47.139Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="新手教程">
 <meta property="article:tag" content="网络安全">
@@ -102,18 +102,19 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本篇  </p>
+<p>本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。  </p>
 </blockquote>
 <h2 id="一、-网络安全简介"><a href="#一、-网络安全简介" class="headerlink" title="一、 网络安全简介"></a>一、 网络安全简介</h2><p><strong>定义</strong>（不完全严谨版本）：</p>
 <p>广义的网络安全即网络空间安全，网络空间由设施与网络组成。</p>
 <p>狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。</p>
 <p><strong>发展历史</strong>：  </p>
-<p> 通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期
-    <strong>1           2              3              4</strong></p>
-<p>时期1仅限于保证信息的物理安全以及通过密码解决保密问题；
-时期2主要确保信息的完整性、可用性、保密性；
-时期3新增了可控性与不可否认性两个原则，且从业务，安全体系，管理三方面构建企业信息保障体系；
-时期4扩大了信息安全的内涵与外延。</p>
+<p> 通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期  </p>
+<pre><code>**1           2              3              4**
+</code></pre>
+<p>时期1仅限于保证信息的物理安全以及通过密码解决保密问题；  </p>
+<p>时期2主要确保信息的完整性、可用性、保密性；  </p>
+<p>时期3新增了可控性与不可否认性两个原则，且从业务，安全体系，管理三方面构建企业信息保障体系；  </p>
+<p>时期4扩大了信息安全的内涵与外延。</p>
 <p><strong>重大事件</strong>  \</p>
 <blockquote>
 <p>📅 <strong>1988年</strong>：[Morris 蠕虫] 首个网络蠕虫，开启互联网安全纪元。  </p>
@@ -194,12 +195,25 @@
     获取<abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr> 是进行ARP欺骗的必备条件[ARP欺骗是内网经典攻击,具体介绍不在此叙述]
     防护者可记录恶意设备的MAC地址进行防御处理.
 }   </p>
-<h4 id="网络基础侦测"><a href="#网络基础侦测" class="headerlink" title="网络基础侦测"></a>网络基础侦测</h4><p><strong>ping 网站或IP</strong>：测试网络通不通，看有没有延迟。
-可以用它来扫描内网有多少台机器开机了</p>
-<p><strong>ping 8.8.8.8 -t</strong>：持续不断地去 Ping 目标。</p>
+<h4 id="网络基础侦测"><a href="#网络基础侦测" class="headerlink" title="网络基础侦测"></a>网络基础侦测</h4><p><strong>ping 网站或IP</strong>：测试网络通不通，看有没有延迟。</p>
+<p>具体应用{
+    假设拿到了一个内网机器的权限，可编写脚本扫描全部主机，看有哪些机器开机。</p>
+<p>}</p>
+<p><strong>ping 8.8.8.8 -t</strong>：持续不断地去 Ping 目标。  </p>
+<p>具体应用{
+    使用 <code>ping 8.8.8.8 -t</code> 持续发包，排除网卡或网线接触不良干扰，确认目标到底是不通，还是单纯屏蔽了ICMP协议（禁Ping）。
+}</p>
 <p><strong>tracert 网站或IP</strong>：路由追踪。
-即可以看发出去的数据包经过了哪几台路由器才找到目标的。（排查网络故障点非常好用）。</p>
-<p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。</p>
+即可以看发出去的数据包经过了哪几台路由器才找到目标的。  </p>
+<p>具体应用{
+    通过对目标域名或IP执行路由追踪，判断目标是否经过CDN加速节点，跳过这些节点找到陌生的源站服务器，从而进行攻击。
+    排查路由节点中是否存在商业WAF防护（如阿里云盾、Cloudflare等 相当于防火墙），可绕过这些再进行攻击。
+}</p>
+<p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。  </p>
+<p>具体应用{
+    通过查询NS记录和尝试DNS域传送漏洞（如<code>ls -d 目标域名.com</code>），批量获取目标内网或隐藏的子域名。
+    结合字典盲测查询，发现如 <code>admin.xxx.com</code> 或 <code>test.xxx.com</code> 等防护薄弱的内部测试后台入口。
+}</p>
 <h4 id="进阶检测命令"><a href="#进阶检测命令" class="headerlink" title="进阶检测命令"></a>进阶检测命令</h4><p><strong>ipconfig &#x2F;all</strong>：查看完整网络配置。判断当前是否在域内、有没有多网卡、DNS 服务器配置等。</p>
 <p><strong>netstat -ano</strong>：<strong>极高频使用</strong>。查看本机所有活动的 TCP&#x2F;UDP 连接及对应的 PID。常用于查找后门连接、异常端口监听（如反向 Shell）。</p>
 <p><strong>nslookup</strong>：DNS 解析验证。常用于探测内网 DNS 服务器，或判断是否存在 DNS 劫持。</p>
@@ -216,11 +230,12 @@
 <p>实操：你在打靶机或者做内网渗透时，发现 3389（RDP远程桌面）连不上，90% 是因为防火墙没开 3389 端口。你能用 wf.msc 或者命令行 netsh advfirewall firewall 去手动添加入站规则。</p>
 <h3 id="5-RDP-远程桌面"><a href="#5-RDP-远程桌面" class="headerlink" title="5. RDP 远程桌面"></a>5. RDP 远程桌面</h3><p>协议端口：默认是 3389。</p>
 <p>网安要点：这是黑客在拿下 Windows 服务器后最常做的事——开启 RDP 服务，给自己创建一个隐藏的管理员账号，然后通过 3389 端口远程登录，像操作自己的电脑一样操作受害服务器。知道 RDP 也是防护的第一步，平时不用建议直接禁用 3389。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>网络安全的相关知识较多，一篇写不完，还有Linus系统没有简要介绍，至于后续如何，且听下回分解，持续更新中......</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidvWRdwwBvHFp4Iwx1lAAVZ" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuiddq-wbTld_UasJ1TaOjlQw" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -232,11 +247,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%802/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          学习日记2 Web入门
         
       </div>
     </a>
@@ -261,7 +276,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
     </div>
   </div>
 
@@ -271,7 +286,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
     </div>
   </div>
 
@@ -281,7 +296,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 20px;">新手教程</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a>
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 20px;">新手教程</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
     </div>
   </div>
 
@@ -303,7 +318,11 @@
       <ul>
         
           <li>
-            <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%802/">(no title)</a>
+            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
           </li>
         
           <li>
@@ -316,10 +335,6 @@
         
           <li>
             <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/">CTF入门|简单的XSS漏铜解题</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/30/hello-world/">Hello World</a>
           </li>
         
       </ul>

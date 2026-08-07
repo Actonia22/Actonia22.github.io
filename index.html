@@ -71,10 +71,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-学习日记2 网络安全基础2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-学习日记3 Web入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%802/" class="article-date">
-  <time class="dt-published" datetime="2026-08-03T08:35:53.718Z" itemprop="datePublished">2026-08-03</time>
+    <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2026-08-07T08:33:24.869Z" itemprop="datePublished">2026-08-07</time>
 </a>
     
   </div>
@@ -87,10 +87,178 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%802/" data-id="cuidmwQ31aDFjM12sl-0YoPJH" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidxFpBPfse8Cw9K8XdTZQxs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-学习日记2 Web入门" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" class="article-date">
+  <time class="dt-published" datetime="2026-08-05T08:15:00.000Z" itemprop="datePublished">2026-08-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本篇博客简要介绍了Web方向上常见的一些漏洞，进行一个初步的了解。</p>
+</blockquote>
+<h2 id="一、-信息泄露"><a href="#一、-信息泄露" class="headerlink" title="一、 信息泄露"></a>一、 信息泄露</h2><p><strong>定义</strong>：<br>源代码&#x2F;配置文件&#x2F;系统内部信息 被非法访问。  </p>
+<p><strong>常见场景</strong>： </p>
+<p><strong>Git&#x2F;SVN版本控制文件泄露</strong>：<br>程序员用Git&#x2F;SVN管理代码时，会生成一个隐藏的.git目录（存代码修改历史）。如果部署网站时没删这个目录，攻击者就能通过<strong>访问</strong>  &#x2F;项目名&#x2F;.git&#x2F;  下载整个项目的<strong>源码</strong>（包括密码、漏洞）。  </p>
+<p><strong>网站备份文件遗留</strong>：<br>网站管理员备份文件时，会生成.bak（备份副本）、.swp（临时文件）、.zip（压缩包）。同理，如果没有删除这些，攻击者可以获得敏感信息。  </p>
+<p><strong>目录遍历</strong>：<br>网站服务器配置错误，允许通过URL“跳目录”访问不该访问的文件。<br>简单解释就是网站代码没有过滤  ..&#x2F;   这种向上跳转目录的符号，攻击者可以用这个方法读取服务器上任意文件。<br>示例：?file&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd   最终读取到Linus系统根目录。<br>注：&#x2F;etc&#x2F;passwd 是Linux 系统的用户清单文件。  </p>
+<p><strong>CTF典型示例</strong>：<br>扫描.git目录拿源码（运用工具扫描网站，下载 <strong>&#x2F;.git&#x2F;</strong> 目录）  </p>
+<p>输入 <strong>?file&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;etc&#x2F;passwd</strong> 读系统核心文件  </p>
+<p><strong>危害</strong>：
+攻击者可分析源代码漏洞直接攻击网站，分析配置文件窃取用户数据，拿到系统内部信息精准攻击。  </p>
+<h2 id="二、-命令执行漏洞（RCE）"><a href="#二、-命令执行漏洞（RCE）" class="headerlink" title="二、 命令执行漏洞（RCE）"></a>二、 命令执行漏洞（RCE）</h2><p><strong>原理剖析</strong>：<br>应用程序未对用户输入进行严格安全过滤,用户能通过输入控制服务器执行任意命令  </p>
+<p><strong>毁灭性危害</strong>：
+这是Web安全领域最严重的漏洞之一。攻击者利用RCE可获取与Web服务同等权限的服务器控制权，进而执行任意操作（如增删改查文件、反弹Shell、植入持久化后门），对系统安全造成毁灭性打击。  </p>
+<p><strong>可能引发RCE的高危函数</strong>：  </p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>危险函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PHP</td>
+<td><code>system()</code>、<code>exec()</code>、<code>passthru()</code>、<code>eval()</code></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>os.system()</code>、<code>subprocess.run()</code></td>
+</tr>
+<tr>
+<td>Java</td>
+<td><code>Runtime.getRuntime().exec()</code>、<code>ProcessBuilder</code></td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td><code>child_process.exec()</code>、<code>child_process.spawn()</code></td>
+</tr>
+</tbody></table>
+<ul>
+<li><code>system()</code>：执行系统命令</li>
+<li><code>exec()</code>：执行命令并返回输出</li>
+<li><code>passthru()</code>：执行命令并输出原始结果</li>
+<li><code>eval()</code>：执行PHP代码</li>
+<li><code>os.system()</code>：执行系统命令</li>
+<li><code>subprocess.run()</code>：执行命令并获取结果，未过滤输入</li>
+<li><code>Runtime.getRuntime().exec()</code>：执行系统命令</li>
+<li><code>ProcessBuilder</code>：构建进程，未过滤输入</li>
+<li><code>child_process.exec()</code>：执行命令并回调结果</li>
+<li><code>child_process.spawn()</code>：启动新进程，未过滤输入</li>
+</ul>
+<blockquote>
+<p><strong>关键提醒</strong>：这些函数本身没问题，但未对用户输入做安全过滤（如<code>escapeshellarg()</code>）就会导致RCE！</p>
+</blockquote>
+<p>经典Payload：<br>?ip&#x3D;127.0.0.1;cat &#x2F;flag    (通过 ； 拼接命令，先执行IP，再执行cat &#x2F;flag 即读取敏感文件)  </p>
+<p>ping -c 3 127.0.0.1 | whoami   （通过 |  拼接命令， 与上文同样道理，whoami是用于获取当前用户权限）  </p>
+<p>注：构造payload有一些技巧，如命令拼接（用分号 ； 管道符 |  反引号&#96; 等）<br>编码绕过（将命令伪装成乱码 方法有Base64编码，URL编码等 由于方法较为陌生 后面深入学习会再次介绍）<br>盲命令执行（攻击者无法直接看到命令输出的结果，可通过Ping探测，Curl传结果等方法侧面判断命令是否成功执行）    </p>
+<h2 id="三，文件包含与文件上传"><a href="#三，文件包含与文件上传" class="headerlink" title="三，文件包含与文件上传"></a>三，文件包含与文件上传</h2><h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p><strong>本质</strong>：服务器加载用户指定的文件，但未对路径做安全检查，攻击者可以骗服务器加载任意文件。  </p>
+<p><strong>类型</strong>：  </p>
+<p>本地文件包含（LFI）：只能包含服务器本地的文件（如&#x2F;var&#x2F;log&#x2F;apache2&#x2F;access.log）。  </p>
+<p>远程文件包含（RFI）：能包含外部URL的文件。  </p>
+<p><strong>常见利用场景</strong>：  </p>
+<p>读取敏感文件：通过包含日志文件（如<span title="网页服务器软件，负责接收浏览器发来的请求，把网页返回给你">Apache</span>：网页服务器软件 的access.log）、临时文件（如<span title="执行后端代码，专门用来写动态网页的。Apache看不懂PHP代码，需要交给PHP解释器处理">PHP</span>：后端脚本解释器 的session文件）、配置文件（如&#x2F;etc&#x2F;passwd）获取信息。  </p>
+<p><strong>例子</strong>：  </p>
+<h4 id="file-var-log-apache2-access-log（包含日志，里面有用户访问记录）。"><a href="#file-var-log-apache2-access-log（包含日志，里面有用户访问记录）。" class="headerlink" title="?file&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;var&#x2F;log&#x2F;apache2&#x2F;access.log（包含日志，里面有用户访问记录）。"></a>?file&#x3D;..&#x2F;..&#x2F;..&#x2F;..&#x2F;var&#x2F;log&#x2F;apache2&#x2F;access.log（包含日志，里面有用户访问记录）。</h4><p>注：  - <code>?file=</code>：表示我要包含的文件路径，<code>?file=xxx</code>会让服务器读取<code>xxx</code>文件并显示内容。  </p>
+<ul>
+<li><p><code>../../../../</code>：是<strong>路径跳转</strong>的意思  </p>
+</li>
+<li><p><code>var/log/apache2/access.log</code>：这是Linux系统中<strong>Apache服务器的访问日志文件</strong>，里面记录了所有访问该网站的用户信息</p>
+</li>
+</ul>
+<h4 id="php-filter-convert-base64-encode-resource-secret-php（读取加密源码）。"><a href="#php-filter-convert-base64-encode-resource-secret-php（读取加密源码）。" class="headerlink" title="php://filter/convert.base64-encode/resource=secret.php（读取加密源码）。"></a><code>php://filter/convert.base64-encode/resource=secret.php</code>（读取加密源码）。</h4><p>注：  - <code>php://</code>：这是PHP的<strong>伪协议</strong>，可进行特殊操作。  </p>
+<ul>
+<li><p><code>filter</code>：用于处理文件内容  </p>
+</li>
+<li><p><code>convert.base64-encode</code>：把文件内容转换成<strong>base64编码</strong></p>
+</li>
+<li><p><code>resource=secret.php</code>：要读取的文件名是<code>secret.php</code> 。</p>
+</li>
+</ul>
+<h4 id="data-text-plain-base64-PD9waHAgcGhwaW5mbygpOz8-（直接执行代码）"><a href="#data-text-plain-base64-PD9waHAgcGhwaW5mbygpOz8-（直接执行代码）" class="headerlink" title="data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+（直接执行代码）"></a><code>data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+</code>（直接执行代码）</h4><p>注：- <code>data://</code>：PHP的<strong>伪协议</strong>  </p>
+<ul>
+<li><p><code>text/plain</code>：MIME类型（表示“纯文本”）。  </p>
+</li>
+<li><p><code>base64,</code>：表示后面的字符串是base64编码的。  </p>
+</li>
+<li><p><code>PD9waHAgcGhwaW5mbygpOz8+</code>：这是<code>&lt;?php phpinfo(); ?&gt;</code>的base64编码（<code>phpinfo()</code>是PHP的函数，会显示PHP的版本、配置、扩展等信息）。</p>
+</li>
+</ul>
+<p><strong>防御措施</strong>：
+用白名单代替黑名单（只允许包含特定目录的文件，如&#x2F;var&#x2F;www&#x2F;html&#x2F;）。  </p>
+<p>对输入严格过滤。  </p>
+<p>禁用allow_url_include（防止远程文件包含）。  </p>
+<p>对路径做严格验证（如realpath()获取绝对路径，检查是否在允许目录内）。   </p>
+<h3 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h3><p><strong>本质</strong>：攻击者上传文件时，服务器未对文件做严格检测，导致“<strong>恶意</strong>文件被保存并执行”。</p>
+<p><strong>绕过检测的技巧</strong>：  </p>
+<h4 id="1-00截断："><a href="#1-00截断：" class="headerlink" title="1. 00截断："></a>1. 00截断：</h4><p>旧版PHP（&lt;5.3.4）处理字符串时，遇到<code>%00</code>（空字符）会停止，只取前面的部分，用这个漏洞通过%00截断路径（如ABC.php%00.jpg，服务器只取ABC.php,这样可以上传服务器原本禁止上传的文件，比如例子中带.php 后缀的文件）。</p>
+<h4 id="2-双写后缀："><a href="#2-双写后缀：" class="headerlink" title="2. 双写后缀："></a>2. 双写后缀：</h4><p>服务器解析文件后缀时，可能只看最后一个<code>.php</code>，或者中间的<code>.jpg</code>被忽略，此时你可以在.php后面加上 .jpg ，然后上传成功。  </p>
+<h4 id="3-htaccess解析："><a href="#3-htaccess解析：" class="headerlink" title="3. .htaccess解析："></a>3. .htaccess解析：</h4><p>.htaccess是Apache服务器的“配置文件”，可以设置“让.jpg文件当.php执行”，在.htaccess该文件中写下 AddType application&#x2F;x-httpd-php .jpg  这个内容，让图片文件（如evil.jpg）以PHP执行，然后服务器就可以执行里面的代码。 </p>
+<p><strong>利用流程</strong>：
+绕过前端检测（如JS验证文件类型）。</p>
+<p>绕过后端检测（如MIME类型、文件头、后缀黑名单）。 </p>
+<p>上传Webshell（如evil.php或evil.jpg，即恶意文件）。  </p>
+<p>访问Webshell（如<a target="_blank" rel="noopener" href="http://site.com/uploads/evil.jpg">http://site.com/uploads/evil.jpg</a> 。   </p>
+<p><strong>防御措施</strong>：
+检测文件内容
+生成随机文件名
+禁用.htaccess</p>
+<h3 id="Webshell提权"><a href="#Webshell提权" class="headerlink" title="Webshell提权"></a>Webshell提权</h3><p><strong>本质</strong>：通过Webshell（恶意代码）获取服务器控制权，再提升权限（从普通用户升级到root）。  </p>
+<p><strong>Webshell类型</strong>：
+PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码简短。<br>攻击者使用专门的工具 填入木马文件的网址，填入密码，然后获取文件。  </p>
+<p><strong>提权方式</strong>：</p>
+<p>SUID提权：系统给一些程序特殊通行证，使得具有普通权限的用户可以修改密码，这个通行证叫 SUID ，攻击者可以寻找哪些程序开启了 SUID，但它本身又可以被操控，从而利用它来执行 root 命令。  </p>
+<p>内核漏洞：攻击者可利用Linux系统本身的漏洞，获取root权限。  </p>
+<p>服务漏洞：利用运行中的服务（如SSH、MySQL）的漏洞，提权到root。  </p>
+<p><strong>持久化</strong>：
+添加系统用户<br>安装后门  </p>
+<h3 id="Base64编码的应用"><a href="#Base64编码的应用" class="headerlink" title="Base64编码的应用"></a>Base64编码的应用</h3><p><strong>本质</strong>：把恶意内容（如Webshell、命令）转换成“看不懂的字符串”，绕过过滤。</p>
+<p><strong>常见场景</strong>：
+编码Webshell，编码命令，
+绕过过滤：
+过滤系统可能只检测“明文危险字符”（如cat、&#x2F;），但不认识Base64编码的字符串，所以能通过检测。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>中国人能飞~  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuidvi8n7bHG4vncKINoRUlNd" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
     </footer>
   </div>
   
@@ -126,18 +294,19 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本篇  </p>
+<p>本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。  </p>
 </blockquote>
 <h2 id="一、-网络安全简介"><a href="#一、-网络安全简介" class="headerlink" title="一、 网络安全简介"></a>一、 网络安全简介</h2><p><strong>定义</strong>（不完全严谨版本）：</p>
 <p>广义的网络安全即网络空间安全，网络空间由设施与网络组成。</p>
 <p>狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。</p>
 <p><strong>发展历史</strong>：  </p>
-<p> 通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期
-    <strong>1           2              3              4</strong></p>
-<p>时期1仅限于保证信息的物理安全以及通过密码解决保密问题；
-时期2主要确保信息的完整性、可用性、保密性；
-时期3新增了可控性与不可否认性两个原则，且从业务，安全体系，管理三方面构建企业信息保障体系；
-时期4扩大了信息安全的内涵与外延。</p>
+<p> 通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期  </p>
+<pre><code>**1           2              3              4**
+</code></pre>
+<p>时期1仅限于保证信息的物理安全以及通过密码解决保密问题；  </p>
+<p>时期2主要确保信息的完整性、可用性、保密性；  </p>
+<p>时期3新增了可控性与不可否认性两个原则，且从业务，安全体系，管理三方面构建企业信息保障体系；  </p>
+<p>时期4扩大了信息安全的内涵与外延。</p>
 <p><strong>重大事件</strong>  \</p>
 <blockquote>
 <p>📅 <strong>1988年</strong>：[Morris 蠕虫] 首个网络蠕虫，开启互联网安全纪元。  </p>
@@ -218,12 +387,25 @@
     获取<abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr> 是进行ARP欺骗的必备条件[ARP欺骗是内网经典攻击,具体介绍不在此叙述]
     防护者可记录恶意设备的MAC地址进行防御处理.
 }   </p>
-<h4 id="网络基础侦测"><a href="#网络基础侦测" class="headerlink" title="网络基础侦测"></a>网络基础侦测</h4><p><strong>ping 网站或IP</strong>：测试网络通不通，看有没有延迟。
-可以用它来扫描内网有多少台机器开机了</p>
-<p><strong>ping 8.8.8.8 -t</strong>：持续不断地去 Ping 目标。</p>
+<h4 id="网络基础侦测"><a href="#网络基础侦测" class="headerlink" title="网络基础侦测"></a>网络基础侦测</h4><p><strong>ping 网站或IP</strong>：测试网络通不通，看有没有延迟。</p>
+<p>具体应用{
+    假设拿到了一个内网机器的权限，可编写脚本扫描全部主机，看有哪些机器开机。</p>
+<p>}</p>
+<p><strong>ping 8.8.8.8 -t</strong>：持续不断地去 Ping 目标。  </p>
+<p>具体应用{
+    使用 <code>ping 8.8.8.8 -t</code> 持续发包，排除网卡或网线接触不良干扰，确认目标到底是不通，还是单纯屏蔽了ICMP协议（禁Ping）。
+}</p>
 <p><strong>tracert 网站或IP</strong>：路由追踪。
-即可以看发出去的数据包经过了哪几台路由器才找到目标的。（排查网络故障点非常好用）。</p>
-<p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。</p>
+即可以看发出去的数据包经过了哪几台路由器才找到目标的。  </p>
+<p>具体应用{
+    通过对目标域名或IP执行路由追踪，判断目标是否经过CDN加速节点，跳过这些节点找到陌生的源站服务器，从而进行攻击。
+    排查路由节点中是否存在商业WAF防护（如阿里云盾、Cloudflare等 相当于防火墙），可绕过这些再进行攻击。
+}</p>
+<p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。  </p>
+<p>具体应用{
+    通过查询NS记录和尝试DNS域传送漏洞（如<code>ls -d 目标域名.com</code>），批量获取目标内网或隐藏的子域名。
+    结合字典盲测查询，发现如 <code>admin.xxx.com</code> 或 <code>test.xxx.com</code> 等防护薄弱的内部测试后台入口。
+}</p>
 <h4 id="进阶检测命令"><a href="#进阶检测命令" class="headerlink" title="进阶检测命令"></a>进阶检测命令</h4><p><strong>ipconfig &#x2F;all</strong>：查看完整网络配置。判断当前是否在域内、有没有多网卡、DNS 服务器配置等。</p>
 <p><strong>netstat -ano</strong>：<strong>极高频使用</strong>。查看本机所有活动的 TCP&#x2F;UDP 连接及对应的 PID。常用于查找后门连接、异常端口监听（如反向 Shell）。</p>
 <p><strong>nslookup</strong>：DNS 解析验证。常用于探测内网 DNS 服务器，或判断是否存在 DNS 劫持。</p>
@@ -240,11 +422,12 @@
 <p>实操：你在打靶机或者做内网渗透时，发现 3389（RDP远程桌面）连不上，90% 是因为防火墙没开 3389 端口。你能用 wf.msc 或者命令行 netsh advfirewall firewall 去手动添加入站规则。</p>
 <h3 id="5-RDP-远程桌面"><a href="#5-RDP-远程桌面" class="headerlink" title="5. RDP 远程桌面"></a>5. RDP 远程桌面</h3><p>协议端口：默认是 3389。</p>
 <p>网安要点：这是黑客在拿下 Windows 服务器后最常做的事——开启 RDP 服务，给自己创建一个隐藏的管理员账号，然后通过 3389 端口远程登录，像操作自己的电脑一样操作受害服务器。知道 RDP 也是防护的第一步，平时不用建议直接禁用 3389。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>网络安全的相关知识较多，一篇写不完，还有Linus系统没有简要介绍，至于后续如何，且听下回分解，持续更新中......</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidvWRdwwBvHFp4Iwx1lAAVZ" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuiddq-wbTld_UasJ1TaOjlQw" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -411,7 +594,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidu5lqssMhKN0gt3DdnEDjY" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidm55fAwhXtgLbf0NW_6nXC" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -464,9 +647,7 @@ hexo g
 <p>浏览器地址栏自带一段<abbr title="载荷是指攻击者或测试者发送给目标系统的一段数据/代码，XSS测试载荷就是专门用来探测网页是否有跨站脚本漏洞的“探针代码”。">XSS测试载荷</abbr>：</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;img%20src=x%20onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>💡 踩坑提醒： 该载荷是纯粹的题目干扰项！本题不存在任何XSS漏洞，只是题目名称和URL参数刻意误导。</p>
-</blockquote>
+
 <p>手动刷满1000分耗时极长，由此判断：分数、领奖逻辑全部由前端JS控制，无后端校验，可直接控制台篡改数据通关。</p>
 <h2 id="0x02-实战解题步骤"><a href="#0x02-实战解题步骤" class="headerlink" title="0x02 实战解题步骤"></a>0x02 实战解题步骤</h2><h3 id="1-打开调试工具"><a href="#1-打开调试工具" class="headerlink" title="1. 打开调试工具"></a>1. 打开调试工具</h3><p>页面按下 <code>`F12`</code> 打开开发者工具，切换至 <code>`Console`</code> 控制台。</p>
 <h3 id="2-分析核心JS对象"><a href="#2-分析核心JS对象" class="headerlink" title="2. 分析核心JS对象"></a>2. 分析核心JS对象</h3><p>页面存在全局 <code>`game`</code> 对象，包含所有核心业务逻辑：</p>
@@ -496,19 +677,13 @@ hexo g
 <p>####（3）<abbr title="文档对象模型，浏览器用来表示和操作网页内容的树形结构">DOM</abbr>型XSS
 不经过服务器数据交互，<strong>完全由前端JS逻辑导致的漏洞</strong>。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。</p>
 <p>特点：纯前端漏洞，流量不会经过服务器，隐蔽性极强。</p>
-<h3 id="3-本题为什么不是XSS漏洞？"><a href="#3-本题为什么不是XSS漏洞？" class="headerlink" title="3. 本题为什么不是XSS漏洞？"></a>3. 本题为什么不是XSS漏洞？</h3><ul>
-<li>题目URL中的Payload只是文本参数，<strong>页面并未解析、执行这段JS代码</strong></li>
-<li>全程没有用户输入渲染、没有代码解析执行的过程</li>
-</ul>
-<p>通关方式只是单纯的前端 JS 变量篡改，属于典型的前端校验绕过，与 XSS 代码注入完全无关。</p>
-<p><strong>总结：</strong> 本题实则是披着 XSS 外衣的「前端安全基础题」，非常适合用来帮助新手区分“伪漏洞”和“真实漏洞”。</p>
-<h3 id="4-XSS常见攻击危害"><a href="#4-XSS常见攻击危害" class="headerlink" title="4. XSS常见攻击危害"></a>4. XSS常见攻击危害</h3><ul>
+<h3 id="3-XSS常见攻击危害"><a href="#3-XSS常见攻击危害" class="headerlink" title="3. XSS常见攻击危害"></a>3. XSS常见攻击危害</h3><ul>
 <li>窃取用户 <code>Cookie</code>，实现账号劫持、登录他人账号。</li>
 <li>篡改页面内容，搭建钓鱼页面、诱导用户输入信息。</li>
 <li>配合 CSRF 漏洞，执行越权操作。</li>
 <li>植入恶意代码、挖矿脚本、木马等。</li>
 </ul>
-<h3 id="5-XSS基础防御方案（开发-安全必知）"><a href="#5-XSS基础防御方案（开发-安全必知）" class="headerlink" title="5. XSS基础防御方案（开发&amp;安全必知）"></a>5. XSS基础防御方案（开发&amp;安全必知）</h3><ul>
+<h3 id="4-XSS基础防御方案（开发-安全必知）"><a href="#4-XSS基础防御方案（开发-安全必知）" class="headerlink" title="4. XSS基础防御方案（开发&amp;安全必知）"></a>4. XSS基础防御方案（开发&amp;安全必知）</h3><ul>
 <li><strong>输入过滤</strong>：严格过滤特殊字符 <code>&lt; &gt; &amp; &quot; &#39;</code> 等，阻止恶意代码注入。</li>
 <li><strong>输出转义</strong>：前端渲染动态数据前，统一进行 HTML 实体转义，防止标签被解析。</li>
 <li><strong><code>Cookie HttpOnly</code></strong>：禁止 JS 读取 Cookie，防止会话劫持。</li>
@@ -521,7 +696,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidcInFb53FEO3Nj5OY0r7Zy" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidQs58FwwSTrl1RNycwoYmh" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -574,7 +749,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidfiPyqKus4lUiN3kFI1ymy" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidW-EaJN91Z59cF5Tuid-1i" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -596,7 +771,7 @@ hexo g
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
     </div>
   </div>
 
@@ -606,7 +781,7 @@ hexo g
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
     </div>
   </div>
 
@@ -616,7 +791,7 @@ hexo g
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 20px;">新手教程</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 10px;">网络安全</a>
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 10px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 20px;">新手教程</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
     </div>
   </div>
 
@@ -638,7 +813,11 @@ hexo g
       <ul>
         
           <li>
-            <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%802/">(no title)</a>
+            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
           </li>
         
           <li>
@@ -651,10 +830,6 @@ hexo g
         
           <li>
             <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/">CTF入门|简单的XSS漏铜解题</a>
-          </li>
-        
-          <li>
-            <a href="/2026/07/30/hello-world/">Hello World</a>
           </li>
         
       </ul>
