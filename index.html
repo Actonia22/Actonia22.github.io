@@ -87,7 +87,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidxFpBPfse8Cw9K8XdTZQxs" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidsKiuoacosY4sHLxhoU-5z" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -253,7 +253,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuidvi8n7bHG4vncKINoRUlNd" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuid_f5qP5QScX5uY7mw0pnti" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -398,20 +398,53 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
 <p><strong>tracert 网站或IP</strong>：路由追踪。
 即可以看发出去的数据包经过了哪几台路由器才找到目标的。  </p>
 <p>具体应用{
-    通过对目标域名或IP执行路由追踪，判断目标是否经过CDN加速节点，跳过这些节点找到陌生的源站服务器，从而进行攻击。
+    通过对目标域名或IP执行路由追踪，判断目标是否经过<mark>CDN加速节点</mark>，跳过这些节点找到陌生的源站服务器，从而进行攻击。
     排查路由节点中是否存在商业WAF防护（如阿里云盾、Cloudflare等 相当于防火墙），可绕过这些再进行攻击。
 }</p>
 <p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。  </p>
 <p>具体应用{
-    通过查询NS记录和尝试DNS域传送漏洞（如<code>ls -d 目标域名.com</code>），批量获取目标内网或隐藏的子域名。
-    结合字典盲测查询，发现如 <code>admin.xxx.com</code> 或 <code>test.xxx.com</code> 等防护薄弱的内部测试后台入口。
+    通过查询NS记录|即找出负责解析域名的DNS服务器在哪个IP地址|和尝试发口令找到漏洞（如<code>ls -d 目标域名.com</code>  这个口令），批量获取大量的平时不开放网址。  </p>
+<pre><code>如果上面的方法失败了，可以使用一种朴实无华的手法，盲猜，即将常见名字的站点名字挨个发过去询问总机，看是否存在。  
+可发现如 `admin.xxx.com` 或 `test.xxx.com` 等防护薄弱的内部测试后台入口。
+</code></pre>
+<p>}</p>
+<h4 id="进阶检测命令"><a href="#进阶检测命令" class="headerlink" title="进阶检测命令"></a>进阶检测命令</h4><p><strong>ipconfig &#x2F;all</strong>：查看完整网络配置。判断当前是否在域内、有没有多网卡、DNS 服务器配置等。  </p>
+<p>具体应用{
+    判断是否处于域环境：查看“主 DNS 后缀”是否包含 <code>corp</code>、<code>ad</code>、<code>local</code> 等常见域控关键词，以此判断目标主机是否处于域环境，为后续内网横向移动做准备。
+    探测隐藏网卡与虚拟机：排查是否存在 <code>VMnet</code>、<code>VirtualBox</code> 等虚拟网卡，判断这台主机是一台真实物理机还是云虚拟机（云主机可能带有特殊的网络特征）。
+    定位 DNS 服务器：查看本机配置的 DNS 服务器是内网 IP 还是公网 IP，辅助判断是否疑似处于域环境，也方便判断接下来在渗透过程中是否存在 DNS 劫持的情况。
 }</p>
-<h4 id="进阶检测命令"><a href="#进阶检测命令" class="headerlink" title="进阶检测命令"></a>进阶检测命令</h4><p><strong>ipconfig &#x2F;all</strong>：查看完整网络配置。判断当前是否在域内、有没有多网卡、DNS 服务器配置等。</p>
-<p><strong>netstat -ano</strong>：<strong>极高频使用</strong>。查看本机所有活动的 TCP&#x2F;UDP 连接及对应的 PID。常用于查找后门连接、异常端口监听（如反向 Shell）。</p>
-<p><strong>nslookup</strong>：DNS 解析验证。常用于探测内网 DNS 服务器，或判断是否存在 DNS 劫持。</p>
-<p><strong>arp -a</strong>：查看 ARP 缓存表。内网渗透中，可用于探测存活主机或检测 ARP 欺骗攻击。</p>
-<p><strong>systeminfo</strong>：必用命令。获取操作系统版本、安装日期和已安装补丁列表（KB号）。知道补丁情况，就能快速判断这台机器可能对哪些漏洞（如 MS17-010）免疫。</p>
+<p><strong>netstat -ano</strong>：<strong>极高频使用</strong>。查看本机所有活动的 TCP&#x2F;UDP 连接及对应的 PID。常用于查找后门连接、异常端口监听（如反向 Shell）。  </p>
+<p>具体应用{
+    挖出 C2 恶意通信：攻击者拿到权限后，用此命令查看是否存在与境外 IP、非正常端口建立的 <code>ESTABLISHED</code>（已连接）状态，疑似回连到攻击方 C2 服务器的恶意连接。
+    找出异常监听后门：查看是否有异常端口处于 <code>LISTENING</code> 监听状态（如 4444、5555、8080 等非业务端口），结合 PID 反向定位是什么程序在监听，揪出攻击者留下的持久化后门。
+    定位反向 Shell：如果发现一个陌生的 PID 正在监听本地端口，且处于 <code>ESTABLISHED</code> 状态，那极大概率是攻击者植入的反弹 Shell 连接。
+}</p>
+<p><strong>arp -a</strong>：查看 ARP 缓存表。内网渗透中，可用于探测存活主机或检测 ARP 欺骗攻击。  </p>
+<p>具体应用{
+    内网存活主机探测：在没有端口扫描工具（如 Nmap）时，直接查看本机 ARP 缓存表，里面记录了近期与本机发生过通信的内网 IP，能快速判断同网段有哪些机器存活。
+    ARP 欺骗攻击检测：如果在 ARP 缓存表里发现同一个 IP 绑定了两个不同的 <abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr>，说明当前局域网内极有可能存在 ARP 欺骗攻击（攻击者正在拦截和嗅探流量）。
+    设备指纹识别：根据 MAC 地址的前缀（OUI）快速识别设备厂商（如华为、华三、Apple、Dell），辅助判断目标主机的物理类型（是电脑还是打印机或者 IoT 设备）。
+}</p>
+<p><strong>systeminfo</strong>：必用命令。获取操作系统版本、安装日期和已安装补丁列表（KB号）。知道补丁情况，就能快速判断这台机器可能对哪些漏洞（如 MS17-010）免疫。  </p>
+<p>具体应用{
+    快速锁定提权 EXP：攻入一台主机后，通过列出的 <code>&lt;abbr title=&quot;微软发布的补丁包编号，如MS17-010对应永恒之蓝漏洞补丁。&quot;&gt;KB 补丁号&lt;/abbr&gt;</code>，去漏洞库比对。如果缺失某个关键 KB 补丁，可以直接确定可利用的提权漏洞，避免做无用功。
+    发现安全防御工具的痕迹：部分杀毒软件或主机安全软件（HIDS）会在系统信息里留下特定服务特征，结合 <code>systeminfo</code> 和 <code>tasklist</code>，可以评估当前环境下杀软的威胁度。
+    推测机器运维习惯：查看“系统安装日期”和“开机时间”，判断这台服务器是长期不关机的核心业务机，还是常重启的测试机，从而影响攻击时间窗口的选择。
+}</p>
 <p><strong>whoami</strong>：查看当前用户身份。提权第一句，判断是普通用户还是 SYSTEM。</p>
+<p>  具体应用{
+    假设你是攻击者，刚刚你通过漏洞潜进一台电脑，这个是你第一个输入的命令，帮助你查询自己的权限有多高。   </p>
+<pre><code>若返回 `nt authority\system` 或 `root`，说明开局即巅峰，无需提权；  
+若返回普通用户，立刻转入本地提权阶段。  
+
+如果返回 Administrator ，说明 你当前独掌大权，可以任意发口令。  
+如果返回 &lt;abbr title=&quot;域，指大型企业网络环境下，由域控制器集中管理所有电脑的架构。&quot;&gt;DOMAIN&lt;/abbr&gt;\aaa ，说明 你属于域内的普通用户，相当于你的电脑属于公司，由“域控”总部统一管理。
+
+然后输入口令  whoami /priv  ，  
+如果有  SeImpersonatePrivilege  出现，你可以用 “烂土豆” 这个现成提权工具，进行提升权限的操作。
+</code></pre>
+<p>}  </p>
 <p>}</p>
 <p>PS：还有很多基本命令没有列出来a</p>
 <h3 id="2-用户与组管理"><a href="#2-用户与组管理" class="headerlink" title="2. 用户与组管理"></a>2. 用户与组管理</h3><p>图形工具：运行 lusrmgr.msc，可以看到所有的“本地用户和组”。</p>
@@ -427,7 +460,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuiddq-wbTld_UasJ1TaOjlQw" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidbZXwiN2Mrr-uV5Nf4Z9GO" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -594,7 +627,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidm55fAwhXtgLbf0NW_6nXC" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuid9mWvRta5hTbVHqQDkKTvX" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -696,7 +729,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidQs58FwwSTrl1RNycwoYmh" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidZD3DrtuNGfTSWnxzfwaX0" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -749,7 +782,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidW-EaJN91Z59cF5Tuid-1i" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidiHCVFMXpkjbQG578gBLIF" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
