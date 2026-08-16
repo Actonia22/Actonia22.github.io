@@ -71,6 +71,205 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-学习日记5 " class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" class="article-date">
+  <time class="dt-published" datetime="2026-08-13T06:00:00.000Z" itemprop="datePublished">2026-08-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/">学习日记5   Web安全基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文主要介绍Web安全知识和实用工具，是深入web学习的前提，打牢基础很重要。
+&lt;第三周 3&gt;</p>
+</blockquote>
+<h2 id="📌-注意"><a href="#📌-注意" class="headerlink" title="📌 注意"></a>📌 注意</h2><p><mark>CTF</mark>（Capture The Flag）是网络安全领域的重要竞赛形式，而Web安全是CTF比赛中的核心组成部分。</p>
+<h2 id="🔍-目录"><a href="#🔍-目录" class="headerlink" title="🔍 目录"></a>🔍 目录</h2><ol>
+<li><p>查看源代码：发现隐藏的线索</p>
+</li>
+<li><p>开发者工具面板详解</p>
+</li>
+</ol>
+<hr>
+<h2 id="1-查看源代码：发现隐藏的线索"><a href="#1-查看源代码：发现隐藏的线索" class="headerlink" title="1. 查看源代码：发现隐藏的线索"></a>1. 查看源代码：发现隐藏的线索</h2><p>在CTF比赛中，查看源代码是发现<strong>隐藏信息</strong>的重要手段。</p>
+<h3 id="🖱️-常用方法与具体操作"><a href="#🖱️-常用方法与具体操作" class="headerlink" title="🖱️ 常用方法与具体操作"></a>🖱️ 常用方法与具体操作</h3><table>
+<thead>
+<tr>
+<th align="left">方法</th>
+<th align="left">具体操作步骤</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>鼠标右键</strong></td>
+<td align="left">在网页空白处点击鼠标右键，选择“查看网页源代码”或“检查”。</td>
+<td align="left">寻找隐藏在HTML注释中的<mark>Flag</mark>（如 <code>&lt;!-- flag{xxx} --&gt;</code>）。</td>
+</tr>
+<tr>
+<td align="left"><strong>Ctrl + U</strong></td>
+<td align="left">直接按下键盘上的 <code>Ctrl + U</code> 组合键，浏览器会立即新建一个标签页显示源代码。</td>
+<td align="left">某些网站使用 JS 屏蔽了右键菜单，使用这个方法可<strong>完美绕过</strong>。</td>
+</tr>
+<tr>
+<td align="left"><strong>开发者工具(F12)</strong></td>
+<td align="left">按 <code>F12</code> 键，切换到 <code>Elements</code> 标签页。</td>
+<td align="left">查看经过JS动态渲染后的<strong>最终DOM结构</strong>，而不是<strong>原始文件</strong>。</td>
+</tr>
+<tr>
+<td align="left"><strong>view-source协议</strong></td>
+<td align="left">在浏览器地址栏，将 URL 前面手动加上 <code>view-source:</code> 并回车。</td>
+<td align="left">前两个方法行不通，突破<strong>前端限制</strong>，获取服务器返回的<strong>原始形态代码</strong>（常用作绕过前端JS加密&#x2F;跳转）。</td>
+</tr>
+</tbody></table>
+<h3 id="🖱️-通俗解释"><a href="#🖱️-通俗解释" class="headerlink" title="🖱️  通俗解释"></a>🖱️  通俗解释</h3><p>“原始文件” 是由服务器发送的<strong>静态</strong>文本字符串，无论你在网页上进行了什么操作，这堆原始字符都不会变。  </p>
+<p>“最终 DOM 结构” 是由HTML 解析器 <strong>动态</strong> 解析原始文件生成了一棵DOM树，随后，浏览器会立刻执行文本里包含的 JavaScript 代码。</p>
+<p>“view-source” 是浏览器内置的一个“伪协议”，在URL 前面手动加上 <code>view-source:</code> 可以发送 HTTP GET 请求和强制进入“原始文本显示模式” 。  </p>
+<blockquote>
+<p>view-source:协议 完全不启动 JS 引擎。  </p>
+</blockquote>
+<p>“前端限制” ：反爬&#x2F;反调试脚本，右键屏蔽等前端逻辑限制你的操作。</p>
+<h3 id="💡-操作示例"><a href="#💡-操作示例" class="headerlink" title="💡 操作示例"></a>💡 操作示例</h3><ul>
+<li><p><strong>突破前端限制</strong>：如果网页用 JS 屏蔽了右键，直接在地址栏输入 <code>view-source:http://靶机地址/login.php</code> 即可获取原始代码。  </p>
+</li>
+<li><p><strong>寻找隐藏线索</strong>：如果你先按 Ctrl+U 看原始源码，如果发现 什么都找不到，使用 <code>Ctrl + F</code> 在源代码页面搜索 <code>flag</code>、<code>key</code>、<code>password</code> 或 <code>admin</code> 等关键词，通常能快速定位到题目答案。</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 实战案例：在地址栏输入以下格式，获取未经渲染的源码 --&gt;</span></span><br><span class="line">view-source:http://www.qingcen.net/login.php</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="2-开发者工具：你的解题利器"><a href="#2-开发者工具：你的解题利器" class="headerlink" title="2. 开发者工具：你的解题利器"></a>2. 开发者工具：你的解题利器</h2><p>开发者工具（F12）是CTF解题的“瑞士军刀”。</p>
+<h3 id="📊-核心面板与实战操作"><a href="#📊-核心面板与实战操作" class="headerlink" title="📊 核心面板与实战操作"></a>📊 核心面板与实战操作</h3><h4 id="🔹-Elements（元素-检查器）-修改前端限制"><a href="#🔹-Elements（元素-检查器）-修改前端限制" class="headerlink" title="🔹 Elements（元素&#x2F;检查器）     - 修改前端限制"></a>🔹 Elements（元素&#x2F;检查器）     - <strong>修改前端限制</strong></h4><ul>
+<li>查看实时DOM</li>
+<li>实时编辑HTML和CSS</li>
+<li>查看盒模型和计算样式</li>
+</ul>
+<p>注：<abbr title="在 CSS 布局引擎中，每一个 HTML 元素在浏览器渲染时，都会被描绘成一个由内容区、内边距、边框、外边距构成的矩形区域">盒模型</abbr>在 F12 中的 Elements 面板右侧，“Computed” 标签页中的特定区块；点击这个区块上图形的数字，可以修改当前元素的边距大小，浏览器会<strong>实时重绘</strong>页面的布局。  </p>
+<p>计算样式：<p>
+浏览器在渲染页面时，会收集元素上所有的
+<span title="通过 &lt;link rel=&quot;stylesheet&quot;&gt; 引入的独立 .css 文件，多用于全局样式复用">外部 CSS 文件</span>（包括
+<span title="直接写在 HTML &lt;head&gt; 中的 &lt;style&gt;...&lt;/style&gt; 代码块，作用于当前页面">嵌入式 &lt;style&gt; 标签</span>、
+<span title="直接写在 HTML 元素标签内部的 style=&quot;...&quot; 属性，拥有最高的单条优先级">内联 style&#x3D;&quot;&quot; 属性</span>，以及
+<span title="子元素默认继承父元素的部分样式属性，如字体颜色 font-color、行高 line-height 等">CSS 继承的样式</span>）。经过 CSS 的
+<abbr title="浏览器按照 !important、ID、类、标签等权重规则，计算多份样式冲突时最终谁胜出的算法">层叠（Cascade）与优先级计算</abbr>后，最终确定的、实际生效的样式，就被称为
+<span title="浏览器对 CSS 进行 2D/3D 计算后的实际像素值，例如开发者写了 width: 50%，这里会显示计算出的真实像素值如 640px">“计算样式”</span>。</p>
+</p>
+
+<ul>
+<li><p><strong>操作步骤</strong>：按 <code>F12</code> -&gt; 点击左上角的小箭头（或按 <code>Ctrl+Shift+C</code>） -&gt; 点击页面上想要修改的输入框或按钮。  </p>
+</li>
+<li><p><strong>实战操作</strong>：如果页面提示“只能输入3位验证码”，在 <code>Elements</code> 面板中找到 <code>&lt;input maxlength=&quot;3&quot;&gt;</code>，<strong>双击</strong>将 <code>3</code> 改成 <code>99</code>，返回页面即可输入超长字符串进行测试；或者发现按钮是 <code>disabled</code>（禁用状态），直接把 <code>disabled</code> 属性<strong>删除</strong>，按钮就能立即点击。<br>}</p>
+</li>
+</ul>
+<h4 id="🔹-Console（控制台）-执行JS代码"><a href="#🔹-Console（控制台）-执行JS代码" class="headerlink" title="🔹 Console（控制台） - 执行JS代码"></a>🔹 Console（控制台） - <strong>执行JS代码</strong></h4><ul>
+<li>执行JavaScript代码（主要）</li>
+<li>查看日志、错误、警告</li>
+<li>查看网络请求、安全错误等</li>
+</ul>
+<blockquote>
+<p><strong>JSFuck详解</strong>：<mark>JSFuck</mark>是一种基于JavaScript的深奥编程风格，只用6个字符就能编写出任何有效的JavaScript代码：<code>[]()!+</code>。<p>JSFuck 的核心原理，正是利用了 JavaScript 的
+<span title="将变量的数据类型从一种（如数字）强制改变为另一种（如字符串）的过程，JSFuck 中经常利用 + 号来触发此行为">类型转换</span>、 <span title="由 JS 引擎在运算或比较时自动执行、无需开发者显式调用 String()/Number() 等函数的数据类型改变">隐式转换</span> 和 <span title="JS 中数组、字符串本质上都是对象，通过 . 或 [] 操作符可以提取特定属性或原型方法，这在 JSFuck 中是获取字符和构造函数的基础">对象属性访问特性</span>。</p> 解码方式是将编码得到的JSFuck表示放在控制台并回车。</p>
+</blockquote>
+<ul>
+<li><p><strong>操作步骤</strong>：按 <code>F12</code> -&gt; 点击 <code>Console</code> 标签页 -&gt; 在 <code>&gt;</code> 提示符后输入 JS 代码并回车。  </p>
+</li>
+<li><p><strong>实战操作</strong>：  </p>
+<ul>
+<li><p>输入 <code>document.cookie</code> 并回车，直接查看当前页面存储的浏览器 <mark>Cookie</mark> 信息。  </p>
+</li>
+<li><p>输入 <code>alert(1)</code> 测试是否存在 XSS 漏洞。  </p>
+</li>
+<li><p>输入 <code>function test(){console.log(&quot;成功&quot;)}; test();</code> 自定义函数调试。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>JSFuck解码实战</strong>：遇到题目给出一串类似 <code>[][(![]+[])...]</code> 的代码，直接<strong>复制粘贴</strong>到 Console 控制台中并按下回车，即可立即解码出原本的 JS 逻辑。</p>
+</li>
+</ul>
+<h4 id="🔹-Network（网络面板）-分析请求过程"><a href="#🔹-Network（网络面板）-分析请求过程" class="headerlink" title="🔹 Network（网络面板） - 分析请求过程"></a>🔹 Network（网络面板） - <strong>分析请求过程</strong></h4><ul>
+<li>请求列表：每列可自定义（Name、Status、Type、Initiator等）  </li>
+<li>请求按<strong>时间</strong>顺序排列  </li>
+<li>颜色标识：绿色（缓存或304）、蓝色（正常加载）、红色（失败请求）</li>
+</ul>
+<h4 id="请求详情"><a href="#请求详情" class="headerlink" title="请求详情"></a>请求详情</h4><ul>
+<li>Headers：请求和响应头</li>
+<li>Preview：响应预览（JSON、图片等）</li>
+<li>Response：原始响应数据</li>
+<li>Timing：详细的请求时间线</li>
+<li>Initiator：触发请求的调用栈</li>
+</ul>
+<hr>
+<ul>
+<li><p><strong>操作步骤</strong>：按 <code>F12</code> -&gt; 点击 <code>Network</code> 标签 -&gt; 勾选左上角的 <strong><code>Preserve log</code>（保留日志）</strong> -&gt; <strong>刷新网页</strong>。此时页面发出的所有请求都会出现。  </p>
+</li>
+<li><p><strong>实战操作</strong>：  </p>
+<ul>
+<li><p>点击某个 <code>.php</code> 或 <code>.js</code> 请求，点击右侧的 <strong><code>Headers</code></strong>：查看 <code>Cookie</code>、<code>User-Agent</code> 等发送给服务器的信息。  </p>
+</li>
+<li><p>点击 <strong><code>Response</code></strong>：查看服务器返回的原始数据。如果是 JSON 格式的接口，可能直接包含账号密码或 <mark>Flag</mark>。  </p>
+</li>
+<li><p><strong>技巧</strong>：观察请求列表的“大小（Size）”和“耗时（Time）”，快速找出被隐藏的后台 API 接口。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="🔹-Application（应用面板）-伪造身份"><a href="#🔹-Application（应用面板）-伪造身份" class="headerlink" title="🔹 Application（应用面板） - 伪造身份"></a>🔹 Application（应用面板） - <strong>伪造身份</strong></h4><ul>
+<li><p>管理浏览器本地存储资源，包括Cookies、<mark>LocalStorage</mark>等  </p>
+</li>
+<li><p>Cookie管理：查看、编辑、删除Cookie，设置Domain、Path、Expires等  </p>
+</li>
+<li><p>一般会在“应用”里的“存储”部分查看cookie相关信息，也是CTF中收集信息的重要位置  </p>
+</li>
+<li><p><strong>操作步骤</strong>：按 <code>F12</code> -&gt; 点击 <code>Application</code> 标签 -&gt; 点击左侧 <code>Storage</code> 下的 <code>Cookies</code> -&gt; 查看 <code>https://当前域名</code> 下的列表。  </p>
+</li>
+<li><p><strong>实战操作</strong>：  </p>
+<ul>
+<li><p>当题目要求“必须是 admin 才能查看 flag”时，<strong>双击</strong> Cookie 列表里的 <code>role</code> 或 <code>user_id</code> 值，将其手动修改为 <code>admin</code> 或 <code>1</code>。  </p>
+</li>
+<li><p>点击下方<strong>灰色</strong>区域可添加新 Cookie（如添加 <code>flag=1</code> 绕过服务器逻辑），修改后<strong>刷新页面</strong>，看是否触发漏洞。</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="🎯-靶场练习-青岑CTF在线靶场（ctf-qingcen-net）"><a href="#🎯-靶场练习-青岑CTF在线靶场（ctf-qingcen-net）" class="headerlink" title="🎯 靶场练习   青岑CTF在线靶场（ctf.qingcen.net）"></a>🎯 靶场练习   <strong>青岑CTF在线靶场</strong>（<code>ctf.qingcen.net</code>）</h2><h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>一半一半</p>
+<hr>
+<p><strong>#CTF #Web安全 #网络安全 #开发者工具 #BurpSuite #漏洞挖掘</strong>  </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" data-id="cuidY0dNqmp3uoxo_tJxrIdA1" data-title="学习日记5   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-学习日记4" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" class="article-date">
@@ -98,11 +297,12 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本篇博客介绍CTF Web安全竞赛中常用的环境搭建和工具配置，主要有<strong>Kali Linux</strong>渗透测试系统、<strong>Dirsearch</strong>目录爆破工具、<strong>GitHack</strong>源码还原脚本以及<strong>中国蚁剑(AntSword)</strong> Webshell管理工具的配置与使用方法。</p>
+<p>本篇博客介绍CTF Web安全竞赛中常用的环境搭建和工具配置，主要有<strong>Kali Linux</strong>渗透测试系统、<strong>Dirsearch</strong>目录爆破工具、<strong>GitHack</strong>源码还原脚本以及<strong>中国蚁剑(AntSword)</strong> Webshell管理工具的配置与使用方法。
+&lt;第三周 2&gt;</p>
 </blockquote>
 <hr>
 <h3 id="一、核心操作环境搭建"><a href="#一、核心操作环境搭建" class="headerlink" title="一、核心操作环境搭建"></a>一、核心操作环境搭建</h3><p>在CTF Web安全竞赛中，搭建稳定且高效的操作环境是成功的第一步。推荐使用<strong>VMware</strong>虚拟化平台配合<strong>Kali Linux</strong>渗透测试系统。<br>注：后面的一些软件安装很多都基于这两个平台  </p>
-<h4 id="环境搭建步骤："><a href="#环境搭建步骤：" class="headerlink" title="环境搭建步骤："></a>环境搭建步骤：</h4><ol>
+<h4 id="环境搭建步骤：-h"><a href="#环境搭建步骤：-h" class="headerlink" title="环境搭建步骤：  h"></a>环境搭建步骤：  h</h4><ol>
 <li><p><strong>安装VMware虚拟化平台</strong>  </p>
 <ul>
 <li><p>下载并安装最新版本的VMware Workstation或VMware Player  </p>
@@ -267,7 +467,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuidFPjGWbr3U-KvNWO67xMmD" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuid0qaDnyOwN1yRC2HGMWtxZ" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -299,7 +499,7 @@ cd GitHack
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+      <a class="p-name article-title" href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记3 Web入门</a>
     </h1>
   
 
@@ -308,7 +508,8 @@ cd GitHack
     <div class="e-content article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本篇博客对上一篇没讲完的漏洞进行了补充简要介绍，后续会对单个类型的漏洞深入学习。</p>
+<p>本篇博客对上一篇没讲完的漏洞进行了补充简要介绍，后续会对单个类型的漏洞深入学习。
+&lt;第三周 1&gt;  </p>
 </blockquote>
 <h3 id="一、SQL注入"><a href="#一、SQL注入" class="headerlink" title="一、SQL注入"></a>一、SQL注入</h3><p><strong>核心内容</strong>：<br>构造恶意SQL语句，绕过应用过滤即骗过网站的防御机制，获取数据库敏感信息或执行命令。</p>
 <h4 id="四种注入类型"><a href="#四种注入类型" class="headerlink" title="四种注入类型"></a>四种注入类型</h4><ol>
@@ -536,7 +737,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidl8mygBTc0vhYhWpHwV06f" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidGfN4gXN76FaOSrs3FnHuv" data-title="学习日记3 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -704,7 +905,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuidWcXozW0H1-Ya1hdEm3THO" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuidpkPbWIb85JZE6Lyw8-jGT" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -902,7 +1103,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidok1hsZDj3xbSSSUGlxfS-" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidrc6V_sgQEsAIvrChF4BGZ" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1030,7 +1231,7 @@ npm cache clean --force
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;我的新文章标题&quot;</span><br></pre></td></tr></table></figure>
 
 <p>这会自动在 <code>source/_posts/</code> 下生成一个 <code>.md</code> 文件。</p>
-<ol>
+<ol start="2">
 <li><p>用标准的 Markdown 语法写好文章，按 <code>Ctrl + S</code> 保存。</p>
 </li>
 <li><p>在终端依次执行：</p>
@@ -1038,23 +1239,39 @@ npm cache clean --force
 </ol>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
-<p>4.如果这些步骤后没有反应，比如输入完hexo d后，终端卡在 Validating config，依次敲入这两行命令并回车：
+<ol start="4">
+<li>如果这些步骤后没有反应，比如输入完hexo d后，终端卡在 Validating config，依次敲入这两行命令并回车：
 hexo clean
-hexo g
-打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 仓库，点击右上角的 Add file -&gt; 选择 Upload files，把刚才复制的所有文件，直接拖拽到 GitHub 那个虚线框里。</p>
-<p>等待几分钟后，访问你的博客主页（建议按 <code>Ctrl + F5</code> 强制刷新），新文章就会顺利上线。</p>
-<p>（发布文章可能遇到的问题）
-{</p>
-<h3 id="💡-报错-1：GitHub-的-Actions-标签页出现红叉"><a href="#💡-报错-1：GitHub-的-Actions-标签页出现红叉" class="headerlink" title="💡 报错 1：GitHub 的 Actions 标签页出现红叉"></a>💡 报错 1：GitHub 的 Actions 标签页出现红叉</h3><p>场景：网页上线后乱码，或在 GitHub 仓库的 Actions 里看到报错日志，提示找不到 <code>theme landscape</code>。</p>
-<p>原因：仓库根目录里残留了 <code>_config.yml</code>，GitHub 误以为你要使用 Jekyll 编译网站，但找不到该主题。</p>
-<p>解决方法：在 GitHub 网页仓库中，点击 <code>Add file</code> -&gt; <code>Create new file</code>，将文件命名为 <code>.nojekyll</code>（注意最前面有一个英文点），内容保持为空，直接提交。这会告诉 GitHub“不需要你编译，直接使用我本地生成好的网页”。</p>
-<h3 id="💡-报错-2：网页显示原始-Markdown-代码，没有排版"><a href="#💡-报错-2：网页显示原始-Markdown-代码，没有排版" class="headerlink" title="💡 报错 2：网页显示原始 Markdown 代码，没有排版"></a>💡 报错 2：网页显示原始 Markdown 代码，没有排版</h3><p>场景：打开博客主页（<code>https://xxx.github.io</code>），看到的却是一堆带有 <code>##</code>、反引号和 <code>&gt;</code> 符号的纯文本。</p>
-<p>原因：把 <code>source/_posts/</code> 里的 <code>.md</code> 源文件直接推到了 GitHub 仓库。浏览器无法解析原始 Markdown 文件，只会把它当成纯文本显示。</p>
-<p>解决方法：</p>
-<ol>
-<li>在本地终端执行：</li>
+hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 仓库，点击右上角的 Add file -&gt; 选择 Upload files，把刚才复制的所有文件，直接拖拽到 GitHub 那个虚线框里。</li>
 </ol>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean &amp;&amp; hexo g</span><br></pre></td></tr></table></figure>
+<p>等待几分钟后，访问你的博客主页（建议按 <code>Ctrl + F5</code> 强制刷新），新文章就会顺利上线。  </p>
+<ol start="5">
+<li>(更新一则)</li>
+</ol>
+<p><strong>💡 极简操作口诀</strong>
+<code>写文章</code> → <code>hexo g</code> → <code>打钩提交</code> → <code>点左下角推送</code>。</p>
+<p>每次写完新文章或修改代码后，按一下步骤操作，可将更新发布到 GitHub Pages：</p>
+<h3 id="🔹-第-1-步：生成本地静态页面"><a href="#🔹-第-1-步：生成本地静态页面" class="headerlink" title="🔹 第 1 步：生成本地静态页面"></a>🔹 第 1 步：生成本地静态页面</h3><p>在 VS Code 底部的终端（PowerShell）中，执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这一步会将你的 Markdown 文章渲染成浏览器能看懂的真实 HTML 网页。看到终端提示 <code>INFO Generated: ...</code> 就说明生成成功了。</p>
+</blockquote>
+<h3 id="🔹-第-2-步：暂存所有更改（Add）"><a href="#🔹-第-2-步：暂存所有更改（Add）" class="headerlink" title="🔹 第 2 步：暂存所有更改（Add）"></a>🔹 第 2 步：暂存所有更改（Add）</h3><p>点击 VS Code <strong>左侧侧边栏</strong>的 <strong><code>源代码管理</code></strong> 图标（像树枝分叉的那个）。
+找到最上方的 <strong><code>+</code></strong>（暂存所有更改），<strong>点击它</strong>。</p>
+<blockquote>
+<p>此时你修改或新增的文章、配置文件都会进入“待提交”清单（左侧列表会变绿）。</p>
+</blockquote>
+<h3 id="🔹-第-3-步：提交更改（Commit）"><a href="#🔹-第-3-步：提交更改（Commit）" class="headerlink" title="🔹 第 3 步：提交更改（Commit）"></a>🔹 第 3 步：提交更改（Commit）</h3><p>在左侧面板下方的 <strong>“消息”输入框</strong> 中，简单写一句备注（比如 <code>推送新文章</code> 或 <code>更新日记</code>）。
+点击输入框右侧的 <strong><code>✔</code>（提交）</strong> 按钮。</p>
+<blockquote>
+<p>现在修改已被保存在你电脑本地的 Git 历史记录里了。</p>
+</blockquote>
+<h3 id="🔹-第-4-步：同步到-GitHub（Push）"><a href="#🔹-第-4-步：同步到-GitHub（Push）" class="headerlink" title="🔹 第 4 步：同步到 GitHub（Push）"></a>🔹 第 4 步：同步到 GitHub（Push）</h3><p>看 VS Code 窗口的 <strong>左下角状态栏</strong>（最底部），找到一个类似 <strong><code>⬇⬆ 数字</code></strong> 的按钮。
+<strong>点击这个按钮</strong>，VS Code 会自动帮你把代码推送到 GitHub 服务器。</p>
+<blockquote>
+<p>等待几秒钟，看到底部状态栏提示“推送成功”或“同步完成”，就可以去 GitHub 网页刷新确认了。大功告成！</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**（发布文章可能遇到的问题）**</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">### 💡 报错 1：GitHub 的 Actions 标签页出现红叉</span><br><span class="line"></span><br><span class="line">场景：网页上线后乱码，或在 GitHub 仓库的 Actions 里看到报错日志，提示找不到 `theme landscape`。</span><br><span class="line"></span><br><span class="line">原因：仓库根目录里残留了 `_config.yml`，GitHub 误以为你要使用 Jekyll 编译网站，但找不到该主题。</span><br><span class="line"></span><br><span class="line">解决方法：在 GitHub 网页仓库中，点击 `Add file` -&gt; `Create new file`，将文件命名为 `.nojekyll`（注意最前面有一个英文点），内容保持为空，直接提交。这会告诉 GitHub“不需要你编译，直接使用我本地生成好的网页”。</span><br><span class="line"></span><br><span class="line">### 💡 报错 2：网页显示原始 Markdown 代码，没有排版</span><br><span class="line"></span><br><span class="line">场景：打开博客主页（`https://xxx.github.io`），看到的却是一堆带有 `##`、反引号和 `&gt;` 符号的纯文本。</span><br><span class="line"></span><br><span class="line">原因：把 `source/_posts/` 里的 `.md` 源文件直接推到了 GitHub 仓库。浏览器无法解析原始 Markdown 文件，只会把它当成纯文本显示。</span><br><span class="line"></span><br><span class="line">解决方法：</span><br><span class="line"></span><br><span class="line">1. 在本地终端执行：</span><br><span class="line"></span><br><span class="line">```html</span><br><span class="line">hexo clean &amp;&amp; hexo g</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li><p>打开本地 <code>public/</code> 文件夹，确认其中包含 <code>index.html</code>、<code>css</code>、<code>js</code> 等静态资源。</p>
@@ -1069,7 +1286,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidnQGfHzq3j46cjg_sQawYH" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidDhLSSfan-5z93R3Krj8I-" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1110,7 +1327,7 @@ hexo g
 </blockquote>
 <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。</p>
 <p>题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag。</p>
-<h2 id="0x01-页面初步观察"><a href="#0x01-页面初步观察" class="headerlink" title="0x01 页面初步观察"></a>0x01 页面初步观察</h2><p>打开链接进入游戏首页，核心规则：击杀丧尸累计1000分即可获取flag。</p>
+<h2 id="0x01-页面初步观察"><a href="#0x01-页面初步观察" class="headerlink" title="0x01 页面初步观察"></a>0x01 页面初步观察</h2><p>打开链接进入游戏首页，核心规则：击杀丧尸累计1000分即可获取flag。  </p>
 <p>游戏操作按键：</p>
 <ul>
 <li>WASD：人物移动</li>
@@ -1171,7 +1388,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidH4p4MkC4OlbqFFbtGrYZg" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidT3MIZYZCVW1xSLtcstH6I" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1224,7 +1441,7 @@ hexo g
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidflLqEWndX3zZHGwdbTMlB" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidCH11EpHtfPoBlZl2_qTSC" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1266,7 +1483,7 @@ hexo g
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 15px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 15px;">新手教程</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 16.67px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 13.33px;">新手教程</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
     </div>
   </div>
 
@@ -1288,11 +1505,15 @@ hexo g
       <ul>
         
           <li>
+            <a href="/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/">学习日记5   Web安全基础知识</a>
+          </li>
+        
+          <li>
             <a href="/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/">学习日记4   Web环境与工具配置指南</a>
           </li>
         
           <li>
-            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记3 Web入门</a>
           </li>
         
           <li>
@@ -1301,10 +1522,6 @@ hexo g
         
           <li>
             <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">学习日记1 网络安全基础</a>
-          </li>
-        
-          <li>
-            <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/">从零搭建个人博客：新手避坑全流程指南</a>
           </li>
         
       </ul>
