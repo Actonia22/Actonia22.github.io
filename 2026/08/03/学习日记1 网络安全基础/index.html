@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>学习日记1 网络安全基础 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习日记1 网络安全基础">
+<meta property="og:url" content="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。    一、 网络安全简介定义（不完全严谨版本）： 广义的网络安全即网络空间安全，网络空间由设施与网络组成。 狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。 发展历史：    通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-08-03T06:41:00.000Z">
+<meta property="article:modified_time" content="2026-08-08T14:32:33.284Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="新手教程">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-学习日记1 网络安全基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time class="dt-published" datetime="2026-08-03T06:41:00.000Z" itemprop="datePublished">2026-08-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      学习日记1 网络安全基础
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本篇涵盖网络安全基础概览、发展历史与法律法规，并重点讲解 Windows 操作系统在信安实战中的常用命令、进程排查及防火墙配置。  </p>
+</blockquote>
+<h2 id="一、-网络安全简介"><a href="#一、-网络安全简介" class="headerlink" title="一、 网络安全简介"></a>一、 网络安全简介</h2><p><strong>定义</strong>（不完全严谨版本）：</p>
+<p>广义的网络安全即网络空间安全，网络空间由设施与网络组成。</p>
+<p>狭义的是指采取必要措施防范外部对网络的各种攻击破坏，保障网络中的信息与数据。</p>
+<p><strong>发展历史</strong>：  </p>
+<p> 通信安全时期 &gt; 信息安全时期 &gt; 信息保障时期 &gt; 网络空间安全时期  </p>
+<pre><code>1              2             3               4
+</code></pre>
+<p>时期1仅限于保证信息的物理安全以及通过密码解决保密问题；  </p>
+<p>时期2主要确保信息的完整性、可用性、保密性；  </p>
+<p>时期3新增了可控性与不可否认性两个原则，且从业务，安全体系，管理三方面构建企业信息保障体系；  </p>
+<p>时期4扩大了信息安全的内涵与外延。</p>
+<p><strong>重大事件</strong>  \</p>
+<blockquote>
+<p>📅 <strong>1988年</strong>：[Morris 蠕虫] 首个网络蠕虫，开启互联网安全纪元。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>1999年</strong>：[CIH 病毒] 首个破坏硬件BIOS的病毒。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2000年</strong>：[爱虫病毒] 全球邮件风暴，损失巨大。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2003年</strong>：[SQL Slammer] 极短时间内瘫痪全球网络。  </p>
+</blockquote>
+<blockquote>
+<p>--- (2000s 中后期 安全沉淀) ---  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2011年</strong>：[RSA SecurID] 安全令牌数据失窃。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2013年</strong>：[棱镜门 PRISM] 全球隐私监听曝光 &#x2F; [Target] 支付系统入侵。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2014年</strong>：[Heartbleed] 互联网“心脏出血”漏洞。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2017年</strong>：[WannaCry] 勒索病毒全球爆发 &#x2F; [Equifax] 征信巨头泄露 &#x2F; [NotPetya] 擦除器攻击。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2020年</strong>：[SolarWinds] 供应链攻击曝光。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2021年</strong>：[Colonial Pipeline] 关键基础设施勒索断供 &#x2F; [Log4Shell] 十年来最严重漏洞。  </p>
+</blockquote>
+<blockquote>
+<p>📅 <strong>2024年</strong>：[XZ Utils] 开源软件供应链后门。  </p>
+</blockquote>
+<p><strong>证书与赛事</strong></p>
+<p>证书：CISSP、CISA、CISP、CCSP、CCNA Security、网络工程师相关证书
+赛事：CTF、XCTF、全国大学生网络安全竞赛、ISC2024、SCTF</p>
+<p><strong>网络安全意识与法律法规</strong></p>
+<p>&lt;安全意识&gt;</p>
+<p>密码管理、社工防范、钓鱼邮件识别、移动办公安全、USB 安全
+企业员工常见风险：弱口令、未经授权软件、外部链接点击</p>
+<p>&lt;主要法律法规&gt;</p>
+<p>《中华人民共和国网络安全法》《数据安全法》《个人信息保护法》
+《关键信息基础设施安全保护条例》 等保2.0：信息安全等级保护制度</p>
+<h2 id="二、操作系统"><a href="#二、操作系统" class="headerlink" title="二、操作系统"></a>二、操作系统</h2><p><strong>操作系统简介</strong>：
+管理计算机硬件与软件资源的程序。在网安视角下，OS 提供各种接口（端口、进程、服务），这些接口是受到攻击的切入点。</p>
+<p>主要分为桌面级（Windows&#x2F;macOS，易上手）和服务器级（Linux&#x2F;Unix，稳定性高，绝大多数黑客攻击目标）。</p>
+<p><strong>Windows 系统</strong>
+{</p>
+<h3 id="1-常用命令（基础知识排查工具）"><a href="#1-常用命令（基础知识排查工具）" class="headerlink" title="1. 常用命令（基础知识排查工具）"></a>1. 常用命令（基础知识排查工具）</h3><p>可用 CMD 或 PowerShell 运行  </p>
+<p>可用win+R打开运行窗口，输入cmd打开</p>
+<h4 id="基础导航与文件操作"><a href="#基础导航与文件操作" class="headerlink" title="基础导航与文件操作"></a>基础导航与文件操作</h4><p><strong>dir</strong>：列出当前文件夹里的所有内容。</p>
+<p><strong>cd 目录名</strong>：进入指定文件夹。</p>
+<p><strong>md 新文件夹名</strong>：创建一个新的文件夹。</p>
+<p><strong>type 文件名.txt</strong>：直接在命令行里查看文本文件的内容。</p>
+<p><strong>copy 原文件 目标路径</strong>：复制文件。</p>
+<p><strong>move 原文件 目标路径</strong>：剪切（移动）文件。</p>
+<p><strong>del 文件名</strong>：删除文件。</p>
+<h4 id="电脑系统查询"><a href="#电脑系统查询" class="headerlink" title="电脑系统查询"></a>电脑系统查询</h4><p><strong>ver</strong>：查当前 Windows 的版本号。  </p>
+<p>具体应用{
+    根据版本号去查询是否存在已知的、针对该版本的<strong>公开漏洞</strong>
+}  </p>
+<p><strong>hostname</strong>：查这台电脑的名字。  </p>
+<p> 具体应用{
+    名称可能包含“<abbr title="Domain Controller：域控制器，负责管理网络中的用户账户、身份验证和安全策略。攻击者往往将其作为首要目标。">DC</abbr>”（域控制器）、“<abbr title="Database Server：数据库服务器，存储核心业务数据。攻击者获取权限后可能进行拖库或提权。">SQL</abbr> ”（数据库服务器）等敏感信息，能帮助攻击者判断其 <strong>重要性</strong>
+}  </p>
+<p><strong>date &#x2F; time</strong>：查看或修改当前系统的日期和时间。  </p>
+<p>具体应用{
+    攻击者可能修改时间去干扰日志记录(时间戳伪造与反取证)<br>    攻击者可利用时间调试攻击Kerberos 等认证协议(<abbr title="Kerberos 等认证协议依赖时间同步，时间偏差过大将认证失效；攻击者可利用时间调试攻击。">计时攻击</abbr> )<br>    电脑收到入侵时,第一时间核查系统时间是否异常.
+}<br>⚠️ 注意：修改系统时间是高权限操作。</p>
+<p><strong>getmac</strong>：查看电脑网卡的物理地址（<abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr> ）。  </p>
+<p>具体应用{
+    攻击者可以读取MAC地址进行标记,后续可以再次定位(设备指纹标记)
+    获取<abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr> 是进行ARP欺骗的必备条件[ARP欺骗是内网经典攻击,具体介绍不在此叙述]
+    防护者可记录恶意设备的MAC地址进行防御处理.
+}   </p>
+<h4 id="网络基础侦测"><a href="#网络基础侦测" class="headerlink" title="网络基础侦测"></a>网络基础侦测</h4><p><strong>ping 网站或IP</strong>：测试网络通不通，看有没有延迟。</p>
+<p>具体应用{
+    假设拿到了一个内网机器的权限，可编写脚本扫描全部主机，看有哪些机器开机。</p>
+<p>}</p>
+<p><strong>ping 8.8.8.8 -t</strong>：持续不断地去 Ping 目标。  </p>
+<p>具体应用{
+    使用 <code>ping 8.8.8.8 -t</code> 持续发包，排除网卡或网线接触不良干扰，确认目标到底是不通，还是单纯屏蔽了ICMP协议（禁Ping）。
+}</p>
+<p><strong>tracert 网站或IP</strong>：路由追踪。
+即可以看发出去的数据包经过了哪几台路由器才找到目标的。  </p>
+<p>具体应用{
+    通过对目标域名或IP执行路由追踪，判断目标是否经过<mark>CDN加速节点</mark>，跳过这些节点找到陌生的源站服务器，从而进行攻击。
+    排查路由节点中是否存在商业WAF防护（如阿里云盾、Cloudflare等 相当于防火墙），可绕过这些再进行攻击。
+}</p>
+<p><strong>nslookup 网址</strong>：查域名的 IP 地址（DNS解析）。  </p>
+<p>具体应用{  </p>
+<p>通过查询NS记录|即找出负责解析域名的DNS服务器在哪个IP地址|和尝试发口令找到漏洞（如<code>ls -d 目标域名.com</code>  这个口令），批量获取大量的平时不开放网址。  </p>
+<p>如果上面的方法失败了，可以使用一种朴实无华的手法，盲猜，即将常见名字的站点名字挨个发过去询问总机，看是否存在。<br>可发现如 <code>admin.xxx.com</code> 或 <code>test.xxx.com</code> 等防护薄弱的内部测试后台入口。
+}</p>
+<h4 id="进阶检测命令"><a href="#进阶检测命令" class="headerlink" title="进阶检测命令"></a>进阶检测命令</h4><p><strong>ipconfig &#x2F;all</strong>：查看完整网络配置。判断当前是否在域内、有没有多网卡、DNS 服务器配置等。  </p>
+<p>具体应用{
+    判断是否处于域环境：查看“主 DNS 后缀”是否包含 <code>corp</code>、<code>ad</code>、<code>local</code> 等常见域控关键词，以此判断目标主机是否处于域环境，为后续内网横向移动做准备。
+    探测隐藏网卡与虚拟机：排查是否存在 <code>VMnet</code>、<code>VirtualBox</code> 等虚拟网卡，判断这台主机是一台真实物理机还是云虚拟机（云主机可能带有特殊的网络特征）。
+    定位 DNS 服务器：查看本机配置的 DNS 服务器是内网 IP 还是公网 IP，辅助判断是否疑似处于域环境，也方便判断接下来在渗透过程中是否存在 DNS 劫持的情况。
+}</p>
+<p><strong>netstat -ano</strong>：<strong>极高频使用</strong>。查看本机所有活动的 TCP&#x2F;UDP 连接及对应的 PID。常用于查找后门连接、异常端口监听（如反向 Shell）。  </p>
+<p>具体应用{
+    挖出 C2 恶意通信：攻击者拿到权限后，用此命令查看是否存在与境外 IP、非正常端口建立的 <code>ESTABLISHED</code>（已连接）状态，疑似回连到攻击方 C2 服务器的恶意连接。
+    找出异常监听后门：查看是否有异常端口处于 <code>LISTENING</code> 监听状态（如 4444、5555、8080 等非业务端口），结合 PID 反向定位是什么程序在监听，揪出攻击者留下的持久化后门。
+    定位反向 Shell：如果发现一个陌生的 PID 正在监听本地端口，且处于 <code>ESTABLISHED</code> 状态，那极大概率是攻击者植入的反弹 Shell 连接。
+}</p>
+<p><strong>arp -a</strong>：查看 ARP 缓存表。内网渗透中，可用于探测存活主机或检测 ARP 欺骗攻击。  </p>
+<p>具体应用{
+    内网存活主机探测：在没有端口扫描工具（如 Nmap）时，直接查看本机 ARP 缓存表，里面记录了近期与本机发生过通信的内网 IP，能快速判断同网段有哪些机器存活。
+    ARP 欺骗攻击检测：如果在 ARP 缓存表里发现同一个 IP 绑定了两个不同的 <abbr title="网卡的硬件物理地址，出厂固化，局域网内可以唯一标识一台设备。">MAC 地址</abbr>，说明当前局域网内极有可能存在 ARP 欺骗攻击（攻击者正在拦截和嗅探流量）。
+    设备指纹识别：根据 MAC 地址的前缀（OUI）快速识别设备厂商（如华为、华三、Apple、Dell），辅助判断目标主机的物理类型（是电脑还是打印机或者 IoT 设备）。
+}</p>
+<p><strong>systeminfo</strong>：必用命令。获取操作系统版本、安装日期和已安装补丁列表（KB号）。知道补丁情况，就能快速判断这台机器可能对哪些漏洞（如 MS17-010）免疫。  </p>
+<p>具体应用{
+    快速锁定提权 EXP：攻入一台主机后，通过列出的 <code>&lt;abbr title=&quot;微软发布的补丁包编号，如MS17-010对应永恒之蓝漏洞补丁。&quot;&gt;KB 补丁号&lt;/abbr&gt;</code>，去漏洞库比对。如果缺失某个关键 KB 补丁，可以直接确定可利用的提权漏洞，避免做无用功。
+    发现安全防御工具的痕迹：部分杀毒软件或主机安全软件（HIDS）会在系统信息里留下特定服务特征，结合 <code>systeminfo</code> 和 <code>tasklist</code>，可以评估当前环境下杀软的威胁度。
+    推测机器运维习惯：查看“系统安装日期”和“开机时间”，判断这台服务器是长期不关机的核心业务机，还是常重启的测试机，从而影响攻击时间窗口的选择。
+}</p>
+<p><strong>whoami</strong>：查看当前用户身份。提权第一句，判断是普通用户还是 SYSTEM。</p>
+<p>  具体应用{
+ 假设你是攻击者，刚刚你通过漏洞潜进一台电脑，这个是你第一个输入的命令，帮助你查询自己的权限有多高。   </p>
+<p>若返回 <code>nt authority\system</code> 或 <code>root</code>，说明开局即巅峰，无需提权；<br>若返回普通用户，立刻转入本地提权阶段。  </p>
+<p>如果返回 Administrator ，说明 你当前独掌大权，可以任意发口令。<br>如果返回 <abbr title="域，指大型企业网络环境下，由域控制器集中管理所有电脑的架构。">DOMAIN</abbr>\aaa ，说明 你属于域内的普通用户，相当于你的电脑属于公司，由“域控”总部统一管理。</p>
+<p>然后输入口令  whoami &#x2F;priv  ，<br>如果有  SeImpersonatePrivilege  出现，你可以用 “烂土豆” 这个现成提权工具，进行提升权限的操作。
+}  </p>
+<p>}</p>
+<p>PS：还有很多基本命令没有列出来a</p>
+<h3 id="2-用户与组管理"><a href="#2-用户与组管理" class="headerlink" title="2. 用户与组管理"></a>2. 用户与组管理</h3><p>图形工具：运行 lusrmgr.msc，可以看到所有的“本地用户和组”。</p>
+<p>安全核心：在 Windows 中，有两个极其重要的隐藏用户：Administrator（超级管理员，目标就是拿下它）和 Guest（默认停用的访客）。如果你去渗透测试，第一步就是看有没有把 Guest 账户激活并提权到管理员组的操作痕迹。</p>
+<h3 id="3-进程与软件管理"><a href="#3-进程与软件管理" class="headerlink" title="3. 进程与软件管理"></a>3. 进程与软件管理</h3><p>图形工具：Ctrl+Shift+Esc 打开任务管理器。</p>
+<p>网安陷阱：攻击者常常伪装成系统进程（如 svchost.exe）。你需要学习如何查看进程的具体路径（右键-&gt;打开文件所在位置）。如果一个 svchost.exe 在 C:\Windows\Temp 下面，那绝对是病毒。</p>
+<h3 id="4-Windows-防火墙"><a href="#4-Windows-防火墙" class="headerlink" title="4. Windows 防火墙"></a>4. Windows 防火墙</h3><p>简单理解：它是一个“守门的保安”。</p>
+<p>实操：你在打靶机或者做内网渗透时，发现 3389（RDP远程桌面）连不上，90% 是因为防火墙没开 3389 端口。你能用 wf.msc 或者命令行 netsh advfirewall firewall 去手动添加入站规则。</p>
+<h3 id="5-RDP-远程桌面"><a href="#5-RDP-远程桌面" class="headerlink" title="5. RDP 远程桌面"></a>5. RDP 远程桌面</h3><p>协议端口：默认是 3389。</p>
+<p>网安要点：这是黑客在拿下 Windows 服务器后最常做的事——开启 RDP 服务，给自己创建一个隐藏的管理员账号，然后通过 3389 端口远程登录，像操作自己的电脑一样操作受害服务器。知道 RDP 也是防护的第一步，平时不用建议直接禁用 3389。</p>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>网络安全的相关知识较多，一篇写不完，还有Linus系统没有简要介绍，至于后续如何，且听下回分解，持续更新中......</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidok1hsZDj3xbSSSUGlxfS-" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          学习日记2 Web入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">从零搭建个人博客：新手避坑全流程指南</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 15px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 15px;">新手教程</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/08/">August 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2026/07/">July 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/">学习日记4   Web环境与工具配置指南</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">学习日记1 网络安全基础</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/">从零搭建个人博客：新手避坑全流程指南</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

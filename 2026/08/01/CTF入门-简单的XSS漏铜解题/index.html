@@ -4,18 +4,19 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>CTF入门|简单的XSS漏铜解题 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="title: CTF入门|简单的XSS漏铜解题date: 2026-08-01 01:33:42tags:心得 CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射">
+  <meta name="description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="CTF入门|简单的XSS漏铜解题">
 <meta property="og:url" content="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="title: CTF入门|简单的XSS漏铜解题date: 2026-08-01 01:33:42tags:心得 CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射">
+<meta property="og:description" content="CTF入门 | 简单的XSS 漏洞解题 本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。  0x00 前言本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。 题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2026-07-31T17:33:42.718Z">
-<meta property="article:modified_time" content="2026-08-01T09:44:38.392Z">
+<meta property="article:published_time" content="2026-07-31T17:33:42.000Z">
+<meta property="article:modified_time" content="2026-08-07T06:28:20.228Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="心得">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -76,22 +77,29 @@
         <section id="main"><article id="post-CTF入门-简单的XSS漏铜解题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2026-07-31T17:33:42.718Z" itemprop="datePublished">2026-08-01</time>
+  <time class="dt-published" datetime="2026-07-31T17:33:42.000Z" itemprop="datePublished">2026-08-01</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      CTF入门|简单的XSS漏铜解题
+    </h1>
+  
+
+      </header>
+    
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <hr>
-<p>title: CTF入门|简单的XSS漏铜解题<br>date: 2026-08-01 01:33:42<br>tags:心得</p>
-<h1 id="CTF入门-简单的XSS-漏洞解题"><a href="#CTF入门-简单的XSS-漏洞解题" class="headerlink" title="CTF入门 | 简单的XSS 漏洞解题"></a>CTF入门 | 简单的XSS 漏洞解题</h1><blockquote>
+        <h1 id="CTF入门-简单的XSS-漏洞解题"><a href="#CTF入门-简单的XSS-漏洞解题" class="headerlink" title="CTF入门 | 简单的XSS 漏洞解题"></a>CTF入门 | 简单的XSS 漏洞解题</h1><blockquote>
 <p>本次文章结合实战靶场题目，复盘解题思路，同时讲解XSS漏洞核心基础知识，适合Web安全新手入门学习。</p>
 </blockquote>
 <h2 id="0x00-前言"><a href="#0x00-前言" class="headerlink" title="0x00 前言"></a>0x00 前言</h2><p>本次协会周练遇到一道名为“简单的XSS”的Web入门题目，靶场是第一人称射击小游戏。最初被URL内的XSS载荷误导，陷入传统反射型XSS的解题思维，踩坑后复盘完整解题流程。</p>
-<p>靶场地址：<a target="_blank" rel="noopener" href="http://62.234.23.150:8080/">http://62.234.23.150:8080/</a></p>
 <p>题目描述：丧尸病毒入侵这个世界，你需要打倒1000只丧尸获取flag。</p>
 <h2 id="0x01-页面初步观察"><a href="#0x01-页面初步观察" class="headerlink" title="0x01 页面初步观察"></a>0x01 页面初步观察</h2><p>打开链接进入游戏首页，核心规则：击杀丧尸累计1000分即可获取flag。</p>
 <p>游戏操作按键：</p>
@@ -103,107 +111,77 @@
 <li>ESC：暂停游戏</li>
 </ul>
 <p>浏览器地址栏自带一段<abbr title="载荷是指攻击者或测试者发送给目标系统的一段数据/代码，XSS测试载荷就是专门用来探测网页是否有跨站脚本漏洞的“探针代码”。">XSS测试载荷</abbr>：</p>
-<pre><code class="language-html">?name=&lt;img%20src=x%20onerror=alert(1)&gt;
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&lt;img%20src=x%20onerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
 
 
-&gt;💡 踩坑提醒： 该载荷是纯粹的题目干扰项！本题不存在任何XSS漏洞，只是题目名称和URL参数刻意误导。
+<p>手动刷满1000分耗时极长，由此判断：分数、领奖逻辑全部由前端JS控制，无后端校验，可直接控制台篡改数据通关。</p>
+<h2 id="0x02-实战解题步骤"><a href="#0x02-实战解题步骤" class="headerlink" title="0x02 实战解题步骤"></a>0x02 实战解题步骤</h2><h3 id="1-打开调试工具"><a href="#1-打开调试工具" class="headerlink" title="1. 打开调试工具"></a>1. 打开调试工具</h3><p>页面按下 <code>`F12`</code> 打开开发者工具，切换至 <code>`Console`</code> 控制台。</p>
+<h3 id="2-分析核心JS对象"><a href="#2-分析核心JS对象" class="headerlink" title="2. 分析核心JS对象"></a>2. 分析核心JS对象</h3><p>页面存在全局 <code>`game`</code> 对象，包含所有核心业务逻辑：</p>
+<ul>
+<li><code>`game.score`</code>：存取器属性，存储当前游戏分数</li>
+<li><code>`game.claimReward()`</code>：异步领奖函数，分数达标即可弹出flag</li>
+<li><code>`game.start()`</code>：游戏启动函数</li>
+</ul>
+<h3 id="3-核心代码执行（一键通关）"><a href="#3-核心代码执行（一键通关）" class="headerlink" title="3. 核心代码执行（一键通关）"></a>3. 核心代码执行（一键通关）</h3><p>直接在控制台修改分数为1000，调用领奖函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 篡改前端分数，绕过游戏击杀校验</span></span><br><span class="line">game.<span class="property">score</span> = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用官方领奖接口，获取Flag</span></span><br><span class="line">game.<span class="title function_">claimReward</span>();</span><br></pre></td></tr></table></figure>
 
-手动刷满1000分耗时极长，由此判断：分数、领奖逻辑全部由前端JS控制，无后端校验，可直接控制台篡改数据通关。
-
-## 0x02 实战解题步骤
-
-### 1. 打开调试工具
-页面按下 `` `F12` `` 打开开发者工具，切换至 `` `Console` `` 控制台。
-
-### 2. 分析核心JS对象
-页面存在全局 `` `game` `` 对象，包含所有核心业务逻辑：
-*   `` `game.score` ``：存取器属性，存储当前游戏分数
-*   `` `game.claimReward()` ``：异步领奖函数，分数达标即可弹出flag
-*   `` `game.start()` ``：游戏启动函数
-
-### 3. 核心代码执行（一键通关）
-直接在控制台修改分数为1000，调用领奖函数：
-
-```javascript
-// 篡改前端分数，绕过游戏击杀校验
-game.score = 1000;
-
-// 调用官方领奖接口，获取Flag
-game.claimReward();
-代码执行后，页面直接弹窗输出flag，题目通关。
-
-0x03 重点：XSS漏洞零基础核心知识
-做完本题最大的收获：分清「前端变量篡改」和「真实XSS漏洞」。
-
-### 1. 什么是XSS漏洞？
-**XSS**（跨站脚本攻击，Cross-Site Scripting）是Web中最经典的高危漏洞之一。
-
-漏洞成因：网站对用户输入的内容**没有做&lt;abbr title=&quot;拒绝或移除非法字段；把可能被解释为代码的特殊字符替换为安全的文本实体；对允许部分 HTML 的输入进行“消毒”，保留安全的标签，规范化危险内容。&quot;&gt;过滤，转义，进化&lt;/abbr&gt;**，导致攻击者可以提交恶意JS代码，代码被页面解析执行，从而实现&lt;abbr title=&quot;攻击者让受害者打开的网页行为被接管（插入或运行攻击脚本），使页面按照攻击者意图展示或执行操作。&quot;&gt;劫持页面&lt;/abbr&gt;、&lt;abbr title=&quot;Cookie 是浏览器为某个网站保存的小片段数据，窃取Cookie是指通过脚本读取浏览器存储的 Cookie（若未设置 HttpOnly），拿到会话凭证后冒充用户登录/访问受保护资源。&quot;&gt;窃取 Cookie&lt;/abbr&gt;、&lt;abbr title=&quot;在真实页面内注入或跳转到伪造界面，欺骗用户输入敏感信息（账号、密码、验证码等）。&quot;&gt;钓鱼&lt;/abbr&gt;、&lt;abbr title=&quot;顾名思义，修改页面内容从而误导用户/伪装重要信息&quot;&gt;篡改页面&lt;/abbr&gt;等攻击行为。
-
-简单来说：**用户写的代码，被网站原样运行了，攻击者利用它让浏览器跑任意脚本。**
-
-### 2. XSS漏洞三大分类
-####（1）反射型XSS（非持久化）
-恶意代码通过&lt;abbr title=&quot;将数据放在网址里传给服务器或页面 常见形式：问号+查询字符串 例子:?name=alice&amp;age=20 表示传递了两个参数 name=alice 和 age=20。&quot;&gt;URL 参数传递&lt;/abbr&gt;，一次性执行、不会存储在服务器，仅当前访问生效。
-
-特点：需要诱导用户点击特制链接，时效性短、无法持久。
-
-常见场景：搜索框回显、URL参数直接渲染页面。
-
-经典测试Payload：`` `&lt;script&gt;alert(1)&lt;/script&gt;` ``
-
-####（2）存储型XSS（持久化）
-用户提交的恶意JS代码，**被服务器存入数据库、文件、留言板等**，所有访问该页面的用户都会触发漏洞。
-
-特点：危害最大、持久性强、无需诱导点击，属于高危漏洞。
-
-常见场景：论坛留言、评论区、个人资料编辑、文章投稿。
-
-####（3）&lt;abbr title=&quot;文档对象模型，浏览器用来表示和操作网页内容的树形结构&quot;&gt;DOM&lt;/abbr&gt;型XSS
-不经过服务器数据交互，**完全由前端JS逻辑导致的漏洞**。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。
-
-特点：纯前端漏洞，流量不会经过服务器，隐蔽性极强。
-
-### 3. 本题为什么不是XSS漏洞？
-*   题目URL中的Payload只是文本参数，**页面并未解析、执行这段JS代码**
-*   全程没有用户输入渲染、没有代码解析执行的过程
-
-通关方式只是单纯的前端 JS 变量篡改，属于典型的前端校验绕过，与 XSS 代码注入完全无关。
-
-**总结：** 本题实则是披着 XSS 外衣的「前端安全基础题」，非常适合用来帮助新手区分“伪漏洞”和“真实漏洞”。
-
-### 4. XSS常见攻击危害
-*   窃取用户 `Cookie`，实现账号劫持、登录他人账号。
-*   篡改页面内容，搭建钓鱼页面、诱导用户输入信息。
-*   配合 CSRF 漏洞，执行越权操作。
-*   植入恶意代码、挖矿脚本、木马等。
-
-### 5. XSS基础防御方案（开发&amp;安全必知）
-*   **输入过滤**：严格过滤特殊字符 `&lt; &gt; &amp; &quot; &#39;` 等，阻止恶意代码注入。
-*   **输出转义**：前端渲染动态数据前，统一进行 HTML 实体转义，防止标签被解析。
-*   **`Cookie HttpOnly`**：禁止 JS 读取 Cookie，防止会话劫持。
-*   **开启 CSP 策略**：限制页面恶意脚本执行。
-
-## 0x04 前端安全延伸知识点
-**JS存取器 get/set**
-
-本题中 `score` 属于 JS 存取器属性，拥有 `get`（读取）和 `set`（赋值）方法。即便前端写死分数限制逻辑，用户依旧可以通过浏览器控制台强制赋值绕过。**请牢记：所有前端校验都是不可信的。**
-
-**安全开发铁律：** 核心业务判断、权限校验、数据统计等逻辑，**绝不可信任前端，必须放在后端实现。**
-</code></pre>
+<p>代码执行后，页面直接弹窗输出flag，题目通关。</p>
+<p>0x03 重点：XSS漏洞零基础核心知识
+做完本题最大的收获：分清「前端变量篡改」和「真实XSS漏洞」。</p>
+<h3 id="1-什么是XSS漏洞？"><a href="#1-什么是XSS漏洞？" class="headerlink" title="1. 什么是XSS漏洞？"></a>1. 什么是XSS漏洞？</h3><p><strong>XSS</strong>（跨站脚本攻击，Cross-Site Scripting）是Web中最经典的高危漏洞之一。</p>
+<p>漏洞成因：网站对用户输入的内容<strong>没有做<abbr title="拒绝或移除非法字段；把可能被解释为代码的特殊字符替换为安全的文本实体；对允许部分 HTML 的输入进行“消毒”，保留安全的标签，规范化危险内容。">过滤，转义，进化</abbr></strong>，导致攻击者可以提交恶意JS代码，代码被页面解析执行，从而实现<abbr title="攻击者让受害者打开的网页行为被接管（插入或运行攻击脚本），使页面按照攻击者意图展示或执行操作。">劫持页面</abbr>、<abbr title="Cookie 是浏览器为某个网站保存的小片段数据，窃取Cookie是指通过脚本读取浏览器存储的 Cookie（若未设置 HttpOnly），拿到会话凭证后冒充用户登录/访问受保护资源。">窃取 Cookie</abbr>、<abbr title="在真实页面内注入或跳转到伪造界面，欺骗用户输入敏感信息（账号、密码、验证码等）。">钓鱼</abbr>、<abbr title="顾名思义，修改页面内容从而误导用户/伪装重要信息">篡改页面</abbr>等攻击行为。</p>
+<p>简单来说：<strong>用户写的代码，被网站原样运行了，攻击者利用它让浏览器跑任意脚本。</strong></p>
+<h3 id="2-XSS漏洞三大分类"><a href="#2-XSS漏洞三大分类" class="headerlink" title="2. XSS漏洞三大分类"></a>2. XSS漏洞三大分类</h3><p>####（1）反射型XSS（非持久化）
+恶意代码通过<abbr title="将数据放在网址里传给服务器或页面 常见形式：问号+查询字符串 例子:?name=alice&age=20 表示传递了两个参数 name=alice 和 age=20。">URL 参数传递</abbr>，一次性执行、不会存储在服务器，仅当前访问生效。</p>
+<p>特点：需要诱导用户点击特制链接，时效性短、无法持久。</p>
+<p>常见场景：搜索框回显、URL参数直接渲染页面。</p>
+<p>经典测试Payload：<code>`&lt;script&gt;alert(1)&lt;/script&gt;`</code></p>
+<p>####（2）存储型XSS（持久化）
+用户提交的恶意JS代码，<strong>被服务器存入数据库、文件、留言板等</strong>，所有访问该页面的用户都会触发漏洞。</p>
+<p>特点：危害最大、持久性强、无需诱导点击，属于高危漏洞。</p>
+<p>常见场景：论坛留言、评论区、个人资料编辑、文章投稿。</p>
+<p>####（3）<abbr title="文档对象模型，浏览器用来表示和操作网页内容的树形结构">DOM</abbr>型XSS
+不经过服务器数据交互，<strong>完全由前端JS逻辑导致的漏洞</strong>。前端JS直接读取URL、Location、Hash等参数，操作DOM节点渲染页面，未过滤参数导致代码执行。</p>
+<p>特点：纯前端漏洞，流量不会经过服务器，隐蔽性极强。</p>
+<h3 id="3-XSS常见攻击危害"><a href="#3-XSS常见攻击危害" class="headerlink" title="3. XSS常见攻击危害"></a>3. XSS常见攻击危害</h3><ul>
+<li>窃取用户 <code>Cookie</code>，实现账号劫持、登录他人账号。</li>
+<li>篡改页面内容，搭建钓鱼页面、诱导用户输入信息。</li>
+<li>配合 CSRF 漏洞，执行越权操作。</li>
+<li>植入恶意代码、挖矿脚本、木马等。</li>
+</ul>
+<h3 id="4-XSS基础防御方案（开发-安全必知）"><a href="#4-XSS基础防御方案（开发-安全必知）" class="headerlink" title="4. XSS基础防御方案（开发&amp;安全必知）"></a>4. XSS基础防御方案（开发&amp;安全必知）</h3><ul>
+<li><strong>输入过滤</strong>：严格过滤特殊字符 <code>&lt; &gt; &amp; &quot; &#39;</code> 等，阻止恶意代码注入。</li>
+<li><strong>输出转义</strong>：前端渲染动态数据前，统一进行 HTML 实体转义，防止标签被解析。</li>
+<li><strong><code>Cookie HttpOnly</code></strong>：禁止 JS 读取 Cookie，防止会话劫持。</li>
+<li><strong>开启 CSP 策略</strong>：限制页面恶意脚本执行。</li>
+</ul>
+<h2 id="0x04-前端安全延伸知识点"><a href="#0x04-前端安全延伸知识点" class="headerlink" title="0x04 前端安全延伸知识点"></a>0x04 前端安全延伸知识点</h2><p><strong>JS存取器 get&#x2F;set</strong></p>
+<p>本题中 <code>score</code> 属于 JS 存取器属性，拥有 <code>get</code>（读取）和 <code>set</code>（赋值）方法。即便前端写死分数限制逻辑，用户依旧可以通过浏览器控制台强制赋值绕过。<strong>请牢记：所有前端校验都是不可信的。</strong></p>
+<p><strong>安全开发铁律：</strong> 核心业务判断、权限校验、数据统计等逻辑，<strong>绝不可信任前端，必须放在后端实现。</strong></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidN6iKx_9cZ2K1RktP0bBA7" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidH4p4MkC4OlbqFFbtGrYZg" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          从零搭建个人博客：新手避坑全流程指南
+        
+      </div>
+    </a>
   
   
     <a href="/2026/07/30/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -222,12 +200,33 @@ game.claimReward();
           <aside id="sidebar">
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Web/">Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%B0%8F%E7%99%BD%E5%85%A5%E9%97%A8/">小白入门</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%9D%82%E8%B0%88/">技术杂谈</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="tag">博客搭建</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" rel="tag">新手教程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag">环境配置</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" style="font-size: 10px;">博客搭建</a> <a href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" style="font-size: 15px;">学习日记</a> <a href="/tags/%E5%BF%83%E5%BE%97/" style="font-size: 10px;">心得</a> <a href="/tags/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/" style="font-size: 15px;">新手教程</a> <a href="/tags/%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" style="font-size: 10px;">环境配置</a> <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" style="font-size: 20px;">网络安全</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -246,11 +245,23 @@ game.claimReward();
       <ul>
         
           <li>
-            <a href="/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/">(no title)</a>
+            <a href="/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/">学习日记4   Web环境与工具配置指南</a>
           </li>
         
           <li>
-            <a href="/2026/07/30/hello-world/">Hello World</a>
+            <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">学习日记1 网络安全基础</a>
+          </li>
+        
+          <li>
+            <a href="/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/">从零搭建个人博客：新手避坑全流程指南</a>
           </li>
         
       </ul>
