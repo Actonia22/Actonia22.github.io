@@ -101,7 +101,9 @@ theme: landscape
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/Actonia22/Actonia22.github.io.git
+  branch: master
 marked:
   gfm: true
   pedantic: false
