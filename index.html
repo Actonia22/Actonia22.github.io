@@ -71,6 +71,177 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/15/6/" class="article-date">
+  <time class="dt-published" datetime="2026-08-15T06:00:00.000Z" itemprop="datePublished">2026-08-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/08/15/6/">学习日记6   Web安全基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文主要介绍Web安全知识和实用工具，是深入web学习的前提，打牢基础很重要。
+&lt;第四周 1&gt;</p>
+</blockquote>
+<h2 id="🔍-目录"><a href="#🔍-目录" class="headerlink" title="🔍 目录"></a>🔍 目录</h2><ol>
+<li><p>HTTP协议基础  </p>
+</li>
+<li><p>HTTP请求方法详解  </p>
+</li>
+<li><p>HTTP请求头解析  </p>
+</li>
+<li><p>案例分析</p>
+</li>
+</ol>
+<h2 id="1-HTTP协议基础"><a href="#1-HTTP协议基础" class="headerlink" title="1. HTTP协议基础"></a>1. HTTP协议基础</h2><p><mark>HTTP</mark>（HyperText Transfer Protocol）是一种无状态的应用层协议。<br>无状态意味着服务器不会记住你之前做过的决定。  </p>
+<h3 id="🔍-核心概念"><a href="#🔍-核心概念" class="headerlink" title="🔍 核心概念"></a>🔍 核心概念</h3><ul>
+<li><p><strong>客户端（Client）</strong>：发起请求（Request），通常是浏览器或 Python 脚本。  </p>
+</li>
+<li><p><strong>服务器（Server）</strong>：处理请求并返回响应。  </p>
+</li>
+<li><p><strong>无状态性</strong>：服务器默认不记录两次请求之间的关联，通常通过 Cookie&#x2F;Session 来维持状态。</p>
+</li>
+</ul>
+<pre><code class="language-mermaid">graph LR
+    A[Client Browser] --&gt;|HTTP REQUEST| B[Server Side Systems]
+    B --&gt;|HTTP RESPONSE| A
+</code></pre>
+<hr>
+<h2 id="2-HTTP请求方法详解"><a href="#2-HTTP请求方法详解" class="headerlink" title="2. HTTP请求方法详解"></a>2. HTTP请求方法详解</h2><h3 id="📊-GET-VS-POST"><a href="#📊-GET-VS-POST" class="headerlink" title="📊 GET VS POST"></a>📊 GET VS POST</h3><table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">GET 请求</th>
+<th align="left">POST 请求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>主要用途</strong></td>
+<td align="left">获取资源</td>
+<td align="left">提交数据</td>
+</tr>
+<tr>
+<td align="left"><strong>参数位置</strong></td>
+<td align="left">参数直接暴露在 URL 中（如 <code>?id=1</code>）</td>
+<td align="left">参数位于 请求体（Body）中，URL 不可见</td>
+</tr>
+<tr>
+<td align="left"><strong>安全性</strong></td>
+<td align="left">会被浏览器缓存，历史记录可见（不安全）</td>
+<td align="left">默认不缓存，安全性相对较高</td>
+</tr>
+<tr>
+<td align="left"><strong>长度限制</strong></td>
+<td align="left">受浏览器 URL 长度限制</td>
+<td align="left">理论上无长度限制，适合传输大量数据</td>
+</tr>
+</tbody></table>
+<h3 id="📝-传参方式"><a href="#📝-传参方式" class="headerlink" title="📝 传参方式"></a>📝 传参方式</h3><ul>
+<li><p><strong>GET传参</strong>：通常以 <code>URL/?参数名=参数值</code> 形式（如：<code>URL/?a=1</code>），可以直接在URL中修改参数进行测试。<br>通俗解释：<strong>公开</strong>的例子 </p>
+</li>
+<li><p><strong>POST传参</strong>：需在请求体中通过工具（如 Burp Suite）构造，即用工具拦截和修改请求体。<br>通俗解释：<strong>私密</strong>的东西</p>
+</li>
+</ul>
+<pre><code class="language-mermaid">graph LR
+    A[Client] --&gt;|Get| B[Server]
+    A --&gt;|Post| C[Server]
+    C --&gt;|Payload| D[数据传输]
+</code></pre>
+<hr>
+<h2 id="5-HTTP请求头解析"><a href="#5-HTTP请求头解析" class="headerlink" title="5. HTTP请求头解析"></a>5. HTTP请求头解析</h2><h3 id="🔒-请求头：IP伪造与代理"><a href="#🔒-请求头：IP伪造与代理" class="headerlink" title="🔒 请求头：IP伪造与代理"></a>🔒 请求头：IP伪造与代理</h3><ul>
+<li><p><strong>X-Forwarded-For</strong>：记录客户端的<strong>真实</strong>IP地址（经过代理时）</p>
+<ul>
+<li>作用：伪造本地 IP（127.0.0.1）绕过访问限制、日志记录、反向代理<br>               &lt;身份证上的真实身份&gt;</li>
+</ul>
+</li>
+<li><p><strong>Via</strong>：记录请求经过的代理服务器和网关</p>
+<ul>
+<li>作用：识别代理类型、绕过特定的过滤规则、追踪请求经过的中间节点、防止请求循环<br>               &lt;旅行护照上的印章&gt;</li>
+</ul>
+</li>
+</ul>
+<h3 id="🍪-请求头：状态保持（Cookie）"><a href="#🍪-请求头：状态保持（Cookie）" class="headerlink" title="🍪 请求头：状态保持（Cookie）"></a>🍪 请求头：状态保持（Cookie）</h3><p><mark>Cookie</mark> 用于在客户端存储会话信息（发送服务器之前设置的Cookie信息）。<br>它是 CTF Web 题目中** 权限维持 **和 **身份伪造 **的核心。  </p>
+<pre><code class="language-http">Cookie: user = admin; session_id = e10adc3949ba59abbe56e057f20f883e
+</code></pre>
+<h4 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h4><ul>
+<li><p><strong>Cookie伪造&#x2F;修改</strong>：CTF中常需要修改 <code>user=guest</code> 为 <code>user=admin</code>，或替换 JWT Token 来提升权限。  </p>
+</li>
+<li><p><strong>Cookie注入</strong>：如果后端直接使用 Cookie 中的值进入数据库查询，可能存在 SQL 注入漏洞。</p>
+</li>
+</ul>
+<h3 id="🌐-请求头：内容协商"><a href="#🌐-请求头：内容协商" class="headerlink" title="🌐 请求头：内容协商"></a>🌐 请求头：内容协商</h3><ul>
+<li><p><strong>Accept</strong>：指定客户端能够接受的响应内容类型。常用于内容协商。</p>
+<ul>
+<li>示例：<code>Accept: application/json, text/html</code></li>
+<li>应用：API 测试中强行要求返回 JSON 格式的数据。</li>
+</ul>
+</li>
+<li><p><strong>Accept-Language</strong>：声明客户端期望的语言。常用于国际化。</p>
+<ul>
+<li>示例：<code>Accept-Language: zh-CN, en;q=0.9</code></li>
+<li>应用：有时多语言网站会根据此头包含不同的文件，可能导致文件包含漏洞。</li>
+</ul>
+</li>
+</ul>
+<h3 id="📋-请求头：主体元数据"><a href="#📋-请求头：主体元数据" class="headerlink" title="📋 请求头：主体元数据"></a>📋 请求头：主体元数据</h3><table>
+<thead>
+<tr>
+<th align="left">Header</th>
+<th align="left">说明</th>
+<th align="left">示例与CTF考点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Content-Type</strong></td>
+<td align="left">指示请求体中的MIME类型。告诉服务器请求体的数据格式，决定后端如何解析数据。常用于POST&#x2F;PUT等请求。</td>
+<td align="left">应用：文件上传时修改 content-type 绕过白名单；将 json 改为 xml 触发 XXE。</td>
+</tr>
+<tr>
+<td align="left"><strong>Content-Length</strong></td>
+<td align="left">指示请求体的长度（字节数）。告诉服务器请求体的大小。常用于确定数据传输完成。</td>
+<td align="left">应用：HTTP 请求走私攻击的核心，利用 CL 和 TE 头的不一致。</td>
+</tr>
+</tbody></table>
+<h2 id="🎯-靶场练习"><a href="#🎯-靶场练习" class="headerlink" title="🎯 靶场练习"></a>🎯 靶场练习</h2><p><strong>青岑CTF在线靶场</strong>（<code>ctf.qingcen.net</code>）  </p>
+<hr>
+<h2 id="📝-写在最后"><a href="#📝-写在最后" class="headerlink" title="📝 写在最后"></a>📝 写在最后</h2><p>QAQ</p>
+<p><strong>#CTF #Web安全 #网络安全 #开发者工具 #BurpSuite #漏洞挖掘</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/15/6/" data-id="cuidAjAPaoPfu71qytaPrjhBA" data-title="学习日记6   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-学习日记5 " class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" class="article-date">
@@ -256,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" data-id="cuidY0dNqmp3uoxo_tJxrIdA1" data-title="学习日记5   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" data-id="cuidja_ZYe8mFY1dWjTXg6P3z" data-title="学习日记5   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -467,7 +638,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuid0qaDnyOwN1yRC2HGMWtxZ" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuidHzlLBmWMqgo0lg-8F33LD" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -737,7 +908,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidGfN4gXN76FaOSrs3FnHuv" data-title="学习日记3 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidbO9y6pye9rKfbBeZHIPSe" data-title="学习日记3 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -905,7 +1076,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuidpkPbWIb85JZE6Lyw8-jGT" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuid_EhoIAlCr7ndb-NdwXnOt" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1103,7 +1274,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidrc6V_sgQEsAIvrChF4BGZ" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidsHLfub4O_2PUKssmozjoS" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1286,7 +1457,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidDhLSSfan-5z93R3Krj8I-" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidH3IgZx6x9ooCfGrcSSwwG" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1388,7 +1559,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidT3MIZYZCVW1xSLtcstH6I" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidL97N5zqYTd_6GdGhkvlfF" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1441,7 +1612,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidCH11EpHtfPoBlZl2_qTSC" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidBuen6AQb81x51dyK3EMOG" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1505,6 +1676,10 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       <ul>
         
           <li>
+            <a href="/2026/08/15/6/">学习日记6   Web安全基础知识</a>
+          </li>
+        
+          <li>
             <a href="/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/">学习日记5   Web安全基础知识</a>
           </li>
         
@@ -1518,10 +1693,6 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
         
           <li>
             <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
-          </li>
-        
-          <li>
-            <a href="/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/">学习日记1 网络安全基础</a>
           </li>
         
       </ul>
