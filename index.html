@@ -71,6 +71,112 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-7" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2026/08/18/7/" class="article-date">
+  <time class="dt-published" datetime="2026-08-18T06:00:00.000Z" itemprop="datePublished">2026-08-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Web/">Web</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2026/08/18/7/">学习日记7   Web安全基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文主要介绍上文未写完的实战案例。
+&lt;第四周 2&gt;</p>
+</blockquote>
+<h2 id="🔍-目录"><a href="#🔍-目录" class="headerlink" title="🔍 目录"></a>🔍 目录</h2><ol>
+<li>案例分析</li>
+</ol>
+<hr>
+<hr>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><h3 id="📌-案例1：GET请求参数暴露导致的Flag泄露"><a href="#📌-案例1：GET请求参数暴露导致的Flag泄露" class="headerlink" title="📌 案例1：GET请求参数暴露导致的Flag泄露"></a>📌 案例1：GET请求参数暴露导致的Flag泄露</h3><p><strong>场景描述</strong>：某CTF题目中，用户登录页面通过GET方法传递用户名参数，URL格式为 <code>login.php?username=admin</code>。  </p>
+<p>意思相当于你公开查询&quot;admin&quot;用户，完整的URL可以是 “ http:&#x2F;&#x2F;靶机地址&#x2F;login.php?username&#x3D;admin ”。    </p>
+<p><strong>http:&#x2F;&#x2F;</strong> - &quot;如何到达&quot;<br><strong>靶机地址</strong> - &quot;目的地&quot;<br> <strong>&#x2F;login.php</strong> - &quot;具体位置&quot;<br><strong>?username&#x3D;admin</strong> - &quot;你的查询要求&quot;  </p>
+<p><strong>漏洞分析</strong>：  </p>
+<ul>
+<li><p>GET请求将参数<strong>直接暴露</strong>在URL中，容易被浏览器缓存和历史记录  </p>
+</li>
+<li><p>攻击者可以通过查看浏览器历史记录&#x2F;直接查看URL获取敏感信息</p>
+</li>
+</ul>
+<p><strong>解决方案</strong>：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用view-source协议查看原始代码</span></span><br><span class="line">view-source:http://靶机地址/login.php?username=admin  </span><br><span class="line"></span><br><span class="line"><span class="comment"># 在源代码中搜索flag</span></span><br><span class="line">Ctrl+F <span class="string">&quot;flag&quot;</span></span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">**防御建议**：  </span><br><span class="line"></span><br><span class="line">- 敏感操作应使用**POST方法 ** </span><br><span class="line"></span><br><span class="line">- 对GET参数进行**加密**处理  </span><br><span class="line"></span><br><span class="line">- 实现CSRF防护机制,相当于操作需要验证码  </span><br><span class="line"></span><br><span class="line"><span class="comment">### 📌 案例2：Cookie伪造提升权限  </span></span><br><span class="line"></span><br><span class="line">**场景描述**：某网站只有admin用户才能查看flag，Cookie中包含 `role=guest`。  </span><br><span class="line"></span><br><span class="line">**漏洞分析**：  </span><br><span class="line"></span><br><span class="line">- Cookie未进行**有效**验证</span><br><span class="line">- 可以**直接修改**Cookie值绕过权限检查  </span><br><span class="line">     </span><br><span class="line">**攻击步骤**：  </span><br><span class="line"></span><br><span class="line">1. 使用开发者工具查看Cookie：`Cookie: role=guest; session=xxx`  </span><br><span class="line">role=guest：表示你是普通用户（没有权限看flag）</span><br><span class="line">session=xxx：你的会话ID（服务器识别你的凭证）  </span><br><span class="line"></span><br><span class="line">2. 修改Cookie值为admin：`Cookie: role=admin; session=xxx`  </span><br><span class="line"><span class="string">&quot;普通用户&quot;</span>改成<span class="string">&quot;管理员&quot;</span>  </span><br><span class="line"></span><br><span class="line">3. 刷新页面获取flag  </span><br><span class="line"></span><br><span class="line">**防御建议**：  </span><br><span class="line"></span><br><span class="line">- 对Cookie进行签名验证</span><br><span class="line">- 实现权限检查机制</span><br><span class="line">- 使用HttpOnly标志保护Cookie  </span><br><span class="line"></span><br><span class="line"><span class="comment">### 📌 案例3：X-Forwarded-For IP伪造绕过限制</span></span><br><span class="line">**场景描述**：某网站根据客户端IP进行访问限制，只允许内网IP访问。</span><br><span class="line">**漏洞分析**：</span><br><span class="line">- 服务器信任X-Forwarded-For头</span><br><span class="line">- 可以伪造IP绕过访问限制</span><br><span class="line">**攻击步骤**：</span><br><span class="line">```http</span><br><span class="line"><span class="comment"># 构造恶意请求</span></span><br><span class="line">GET /admin.php HTTP/1.1</span><br><span class="line">Host: target.com</span><br><span class="line">X-Forwarded-For: 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p><strong>防御建议</strong>：</p>
+<ul>
+<li>验证X-Forwarded-For头的真实性</li>
+<li>实现IP白名单机制</li>
+<li>记录真实客户端IP</li>
+</ul>
+<h3 id="📌-案例4：Content-Type导致的文件上传漏洞"><a href="#📌-案例4：Content-Type导致的文件上传漏洞" class="headerlink" title="📌 案例4：Content-Type导致的文件上传漏洞"></a>📌 案例4：Content-Type导致的文件上传漏洞</h3><p><strong>场景描述</strong>：某网站允许用户上传图片文件，但未正确验证文件类型。
+<strong>漏洞分析</strong>：</p>
+<ul>
+<li>攻击者可以修改Content-Type绕过检测</li>
+<li>可能导致远程代码执行
+<strong>攻击步骤</strong>：</li>
+</ul>
+<ol>
+<li>准备恶意文件（如webshell.php）</li>
+<li>修改Content-Type为image&#x2F;jpeg</li>
+<li>上传文件获取webshell
+<strong>防御建议</strong>：</li>
+</ol>
+<ul>
+<li>验证文件内容而非仅依赖Content-Type</li>
+<li>实现文件类型白名单</li>
+<li>对上传文件进行病毒扫描</li>
+</ul>
+<h3 id="📌-案例5：HTTP请求走私攻击"><a href="#📌-案例5：HTTP请求走私攻击" class="headerlink" title="📌 案例5：HTTP请求走私攻击"></a>📌 案例5：HTTP请求走私攻击</h3><p><strong>场景描述</strong>：某网站同时支持CL（Content-Length）和TE（Transfer-Encoding）头。
+<strong>漏洞分析</strong>：</p>
+<ul>
+<li>攻击者可以利用CL和TE的不一致进行请求走私</li>
+<li>可能导致缓存污染或权限提升
+<strong>攻击步骤</strong>：</li>
+</ul>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> <span class="meta">HTTP/1.1</span></span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>vulnerable.com</span><br><span class="line"><span class="attribute">Content-Length</span><span class="punctuation">: </span>100</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line">0</span><br><span class="line">GET /admin HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span><span class="punctuation">: </span>vulnerable.com</span><br></pre></td></tr></table></figure>
+<p><strong>防御建议</strong>：</p>
+<ul>
+<li>禁用Transfer-Encoding头</li>
+<li>实现严格的请求验证</li>
+<li>定期进行安全审计</li>
+</ul>
+<hr>
+<h2 id="🎯-靶场练习"><a href="#🎯-靶场练习" class="headerlink" title="🎯 靶场练习"></a>🎯 靶场练习</h2><h2 id="青岑CTF在线靶场（ctf-qingcen-net）"><a href="#青岑CTF在线靶场（ctf-qingcen-net）" class="headerlink" title="青岑CTF在线靶场（ctf.qingcen.net）"></a><strong>青岑CTF在线靶场</strong>（<code>ctf.qingcen.net</code>）</h2><h2 id="📝-写在最后"><a href="#📝-写在最后" class="headerlink" title="📝 写在最后"></a>📝 写在最后</h2><p>ovo</p>
+<p><strong>#CTF #Web安全 #网络安全 #开发者工具 #BurpSuite #漏洞挖掘</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2026/08/18/7/" data-id="cuid3nBCF5fEL-C_SohTsHmuR" data-title="学习日记7   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="tag">学习日记</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">网络安全</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-6" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2026/08/15/6/" class="article-date">
@@ -228,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/15/6/" data-id="cuidAjAPaoPfu71qytaPrjhBA" data-title="学习日记6   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/15/6/" data-id="cuidmhhfFp0LxrSeBBfYUMMpk" data-title="学习日记6   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -427,7 +533,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" data-id="cuidja_ZYe8mFY1dWjTXg6P3z" data-title="学习日记5   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/13/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B05%20/" data-id="cuidG2YDYgXDgqtqvYuKLWkto" data-title="学习日记5   Web安全基础知识" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -638,7 +744,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuidHzlLBmWMqgo0lg-8F33LD" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/10/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B04/" data-id="cuidOy-sF8pSv9X1fpPs3ZhMv" data-title="学习日记4   Web环境与工具配置指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -908,7 +1014,7 @@ cd GitHack
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidbO9y6pye9rKfbBeZHIPSe" data-title="学习日记3 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/" data-id="cuidu5lG34JSzw-ill7_ExEk1" data-title="学习日记3 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1076,7 +1182,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuid_EhoIAlCr7ndb-NdwXnOt" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/" data-id="cuid3v1iPYOEAEhV4CVWbASV9" data-title="学习日记2 Web入门" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1274,7 +1380,7 @@ PHP，ASP，JSP。<br>以上三种都属于“一句话木马”，因为代码�
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidsHLfub4O_2PUKssmozjoS" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/03/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01%20%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%9F%BA%E7%A1%80/" data-id="cuidtAo09n_-MePcnlKex8J4S" data-title="学习日记1 网络安全基础" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1457,7 +1563,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuidH3IgZx6x9ooCfGrcSSwwG" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/02/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%9A%E6%96%B0%E6%89%8B%E9%81%BF%E5%9D%91%E5%85%A8%E6%B5%81%E7%A8%8B%E6%8C%87%E5%8D%97/" data-id="cuid6iQAjceUXv1lDIZPSBvjS" data-title="从零搭建个人博客：新手避坑全流程指南" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1559,7 +1665,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidL97N5zqYTd_6GdGhkvlfF" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/08/01/CTF%E5%85%A5%E9%97%A8-%E7%AE%80%E5%8D%95%E7%9A%84XSS%E6%BC%8F%E9%93%9C%E8%A7%A3%E9%A2%98/" data-id="cuidBhW8PycVb4c4oglu1IrE1" data-title="CTF入门|简单的XSS漏铜解题" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1612,7 +1718,7 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidBuen6AQb81x51dyK3EMOG" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/07/30/hello-world/" data-id="cuidL2WCCJeQlNBE3mNv8MBow" data-title="Hello World" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       
@@ -1676,6 +1782,10 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
       <ul>
         
           <li>
+            <a href="/2026/08/18/7/">学习日记7   Web安全基础知识</a>
+          </li>
+        
+          <li>
             <a href="/2026/08/15/6/">学习日记6   Web安全基础知识</a>
           </li>
         
@@ -1689,10 +1799,6 @@ hexo g<br>打开你电脑的文件夹 D:\B my-blog\public，进入你的 GitHub 
         
           <li>
             <a href="/2026/08/07/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B03%20Web%E5%85%A5%E9%97%A8/">学习日记3 Web入门</a>
-          </li>
-        
-          <li>
-            <a href="/2026/08/05/%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B02%20Web%E5%85%A5%E9%97%A8/">学习日记2 Web入门</a>
           </li>
         
       </ul>
